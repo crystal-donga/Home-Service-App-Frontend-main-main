@@ -84,21 +84,24 @@ export default function AddServiceForm() {
   const [createService] = useCreateServiceMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    serviceProviderId: "",
+    serviceProvider: "",
     description: "",
     price: "",
+    serviceName:"",
+    category: "",
     expectedDuration: "",
     status: true,
     image_url: null,
   });
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies.get("authToken");
     if (token) {
       const decoded = jwtDecode(token);
-      setFormData({
-        ...formData,
-        serviceProviderId: decoded.serviceProviderId,
-      });
+      console.log(decoded)
+      setFormData((prevData) => ({
+        ...prevData,
+        serviceProvider: decoded.serviceProviderId,
+      }));
     }
   }, []);
 
@@ -142,7 +145,9 @@ export default function AddServiceForm() {
     });
 
     const serviceDetailsBlob = new Blob([JSON.stringify({
-      serviceProviderId: formData.serviceProviderId,
+    serviceProvider: formData.serviceProvider,
+    category: selectedCategory, 
+    serviceName: selectedService,
     description: formData.description,
     price: formData.price,
     expectedDuration: formData.expectedDuration,
@@ -160,6 +165,7 @@ export default function AddServiceForm() {
 }
 
      try{
+      console.log("formdatatosend",formDataToSend)
        await createService(formDataToSend).unwrap()
        toast.success("Service created successfully");
        navigate("/view-services")

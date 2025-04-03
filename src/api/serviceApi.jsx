@@ -22,8 +22,16 @@ import Cookies from "js-cookie";
                 method: 'POST',
                 body: data,
             }),
-        })
+        }),
+        getAllServices: builder.query({
+            query: () => ({
+                url: `/get-all`, 
+                method: 'GET',
+            }),
+    
+           
+        }),
     })
 })
-export const { useCreateServiceMutation } = serviceApi;
+export const { useCreateServiceMutation,useGetAllServicesQuery } = serviceApi;
 export default serviceApi;
