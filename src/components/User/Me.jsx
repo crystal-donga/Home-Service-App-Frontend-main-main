@@ -84,7 +84,7 @@ function Me() {
         <div className="flex flex-col items-center">
           {/* Profile Picture */}
           <img
-            src={userDetails.profilePictureUrl ? `http://localhost:8080/api/user-details/${userDetails.profilePictureUrl}` : "https://via.placeholder.com/150"}
+            src={userDetails.profilePictureUrl ? `http://localhost:8080/api/user-details/image/${userDetails.profilePictureUrl}` : "https://via.placeholder.com/150"}
             alt="Profile"
             className="w-40 h-40 rounded-full border-4 border-gray-300 shadow-md object-cover"
           />

@@ -115,7 +115,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={`sticky-top h-screen bg-gray-100 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`}>
+    <div className={`sticky-top h-screen bg-gray-200 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`}>
       
       {/* Sidebar Toggle Button */}
       <button 
@@ -143,25 +143,14 @@ const Sidebar = () => {
         </div>
 
         {/* Submenu - Expands Outside */}
-        <ul className="absolute left-full top-0 bg-gray-100 shadow-lg p-2 w-48 hidden group-hover:block">
+        <ul className="absolute left-full top-0 bg-gray-200 shadow-lg p-2 w-48 hidden group-hover:block">
           <li>
             <Link to="/add-service" className="flex items-center p-2 hover:bg-gray-300 transition">
               <PlusCircle size={18} />
               <span className="ml-3">Add New Service</span>
             </Link>
           </li>
-          <li>
-            <Link to="/update-service" className="flex items-center p-2 hover:bg-gray-300 transition">
-              <Edit size={18} />
-              <span className="ml-3">Update Service</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/delete-service" className="flex items-center p-2 hover:bg-gray-300 transition">
-              <Trash2 size={18} />
-              <span className="ml-3">Delete Service</span>
-            </Link>
-          </li>
+         
           <li>
             <Link to="/view-services" className="flex items-center p-2 hover:bg-gray-300 transition">
               <Eye size={18} />

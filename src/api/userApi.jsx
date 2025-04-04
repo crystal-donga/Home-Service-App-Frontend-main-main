@@ -20,7 +20,7 @@ const userApi = createApi({
       query: (formData) => {
         
         return {
-          url: "/addDetails",
+          url: "/add-details",
           method: "POST",
           body: formData,
         };
@@ -37,7 +37,7 @@ const userApi = createApi({
       updateUserDetails: builder.mutation({  
         query: (userDetails) => ({
           url: "/update",
-          method: "PUT",
+          method: "PATCH",
           body: userDetails,
         }),
         transformResponse: (response) => {

@@ -31,7 +31,23 @@ import Cookies from "js-cookie";
     
            
         }),
+        updateService:builder.mutation({
+            query:(data)=>({
+                url: '/update',
+                method: 'PATCH',
+                body: data,
+                }),
+                
+
+
+        }),
+        deleteService:builder.mutation({
+            query:(id)=>({
+                url:`/${id}`,
+                method:'DELETE',
+            }),
+        }),
     })
 })
-export const { useCreateServiceMutation,useGetAllServicesQuery } = serviceApi;
+export const { useCreateServiceMutation,useGetAllServicesQuery,useDeleteServiceMutation,useUpdateServiceMutation } = serviceApi;
 export default serviceApi;

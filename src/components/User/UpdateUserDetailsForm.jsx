@@ -55,7 +55,7 @@ useEffect(() => {
     
     }));
     if (existingUserDetails.profilePictureUrl) {
-      setImagePreview(`http://localhost:8080/api/user-details/${existingUserDetails.profilePictureUrl}`);
+      setImagePreview(`http://localhost:8080/api/user-details/image/${existingUserDetails.profilePictureUrl}`);
     }
   }
 }, [existingUserDetails]);
@@ -70,7 +70,7 @@ useEffect(() => {
                 //   toast.error("Please select a valid image file!");
                 //   return;
                 // }
-                 setFormData({ ...formData, profilePictureUrl: formData.profilePictureUrl || "",}) // Ensure it's a string });
+                 setFormData({ ...formData, profilePictureUrl: file || "",}) // Ensure it's a string });
           
                 // Image preview
                 const reader = new FileReader();
@@ -85,9 +85,31 @@ useEffect(() => {
 
              const handleSubmit = async (e) => {
                 e.preventDefault();
+                const updateUserDetailsBlob = new Blob([JSON.stringify({
+                  userId: formData.userId,
+                  address: formData.address,
+                  city: formData.city,
+                  state: formData.state,
+                  country: formData.country,
+                  zipCode: formData.zipCode,
+                  dateOfBirth: formData.dateOfBirth
+              })], { type: 'application/json' });
+              
+              const formDataToSend = new FormData();
+            
+              formDataToSend.append("UserDetailsRegisterDto",updateUserDetailsBlob);
+              if (formData.profilePictureUrl) {
+                formDataToSend.append("imageFile", formData.profilePictureUrl);
+            } else {
+                console.warn("No image selected");
+            }
+              
+              for (let pair of formDataToSend.entries()) {
+                console.log(pair[0], pair[1]);
+              }
                 try {
-                  console.log(formData)
-                  const response = await updateUserDetails(formData).unwrap();
+                  console.log(formDataToSend)
+                  const response = await updateUserDetails(formDataToSend).unwrap();
                   console.log("response",response)
                   toast.success("User details updated successfully!");
                   navigate("/me")
