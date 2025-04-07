@@ -24,7 +24,7 @@ const ProviderDetails = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
-    const token = cookies.authToken;
+      const token = cookies.authToken;
     if (token) {
       try {
         const decode = jwtDecode(token);
@@ -99,7 +99,7 @@ const ProviderDetails = () => {
       const response = await createProvider(formDataToSend).unwrap();
 
       if (response?.token) {
-        setCookie("authToken", response.token, { path: "/", maxAge: 7 * 24 * 60 * 60 }); // 7 days
+        setCookie("authToken", response.token, { path: "/", maxAge: 7 * 24 * 60 * 60, sameSite: "Lax", secure: false }); // 7 days
         console.log("Token stored in cookies.");
       }
 

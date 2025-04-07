@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useCookies } from "react-cookie"; // ✅ react-cookie
+import { useCookies } from "react-cookie"; 
 import Input from "../common/Input";
 import Button from "../common/Button";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["authToken"]); // ✅ init cookie state
-
+  const [cookies, setCookie] = useCookies(["authToken"]); 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -62,12 +61,11 @@ const LoginForm = () => {
 
       const token = response.data.token;
 
-      // ✅ Use react-cookie's setCookie
       setCookie("authToken", token, {
         path: "/",
         maxAge: 7 * 24 * 60 * 60, // 7 days
-        secure: true,
-        sameSite: "lax",
+        secure: false,
+        sameSite: "Lax",
       });
 
       // Redirect based on role

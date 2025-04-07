@@ -50,7 +50,6 @@ const ProviderProfile = () => {
 
         console.log("Provider deleted successfully:", response);
 
-        // ✅ Remove cookie
         removeCookie("authToken");
 
         toast.success("Your profile has been deleted successfully!");
