@@ -1,18 +1,12 @@
-
-
-
-
-
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
 
-const getUserRole = () => {
-  const authToken = Cookies.get("authToken");
-  if (!authToken) return null;
+// Extract role from JWT token stored in cookie
+const getUserRoleFromToken = (token) => {
+  if (!token) return null;
 
   try {
-    const tokenPayload = JSON.parse(atob(authToken.split(".")[1])); 
-    console.log("in token geeting role" + tokenPayload.role)
+    const tokenPayload = JSON.parse(atob(token.split(".")[1]));
     return tokenPayload.role;
   } catch (error) {
     console.error("Error decoding token:", error);
@@ -22,12 +16,14 @@ const getUserRole = () => {
 
 const Header = () => {
   const navigate = useNavigate();
-  const isAuthenticated = Cookies.get("authToken") !== undefined;
-  const userRole = getUserRole();
-  console.log("heder user role",userRole)
+  const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
+  
+  const authToken = cookies.authToken;
+  const isAuthenticated = !!authToken;
+  const userRole = getUserRoleFromToken(authToken);
+
   const handleLogout = () => {
-    Cookies.remove("authToken", { path: "/" });
-    localStorage.removeItem("user");
+    removeCookie("authToken", { path: "/" });
     navigate("/login");
   };
 
@@ -46,7 +42,7 @@ const Header = () => {
             Dashboard
           </Link>
         )}
-          {isAuthenticated && userRole === "USER" && (
+        {isAuthenticated && userRole === "USER" && (
           <Link to="/user-profile" className="text-white hover:text-gray-200 transition duration-300 underline-offset-4 hover:underline">
             Profile
           </Link>
@@ -89,3 +85,4 @@ const Header = () => {
 };
 
 export default Header;
+
