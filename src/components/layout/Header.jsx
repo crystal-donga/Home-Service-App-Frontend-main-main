@@ -4,14 +4,27 @@
 
 
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
+// const getUserRole = () => {
+//   const authToken = Cookies.get("authToken");
+//   if (!authToken) return null;
 
-const getUserRole = () => {
-  const authToken = Cookies.get("authToken");
-  if (!authToken) return null;
+//   try {
+//     const tokenPayload = JSON.parse(atob(authToken.split(".")[1])); 
+//     console.log("in token geeting role" + tokenPayload.role)
+//     return tokenPayload.role;
+//   } catch (error) {
+//     console.error("Error decoding token:", error);
+//     return null;
+//   }
+// };
+// Extract role from JWT token stored in cookie
+const getUserRoleFromToken = (token) => {
+  if (!token) return null;
 
   try {
-    const tokenPayload = JSON.parse(atob(authToken.split(".")[1])); 
+    const tokenPayload = JSON.parse(atob(token.split(".")[1]));
     console.log("in token geeting role" + tokenPayload.role)
     return tokenPayload.role;
   } catch (error) {
@@ -22,11 +35,17 @@ const getUserRole = () => {
 
 const Header = () => {
   const navigate = useNavigate();
-  const isAuthenticated = Cookies.get("authToken") !== undefined;
-  const userRole = getUserRole();
+  const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
+  const authToken = cookies.authToken;
+  const isAuthenticated = !!authToken;
+  const userRole = getUserRoleFromToken(authToken);
+
   console.log("heder user role",userRole)
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const userName = user?.name || "User";
   const handleLogout = () => {
-    Cookies.remove("authToken", { path: "/" });
+    removeCookie("authToken", { path: "/" });
     localStorage.removeItem("user");
     navigate("/login");
   };
@@ -71,7 +90,7 @@ const Header = () => {
             onClick={handleLogout}
             className="px-4 py-2 bg-white text-indigo-700 font-semibold rounded-md hover:bg-indigo-100 transition duration-300 shadow-md"
           >
-            Sign out
+           {userName}
           </button>
         ) : (
           <>

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie"; // Import js-cookie
+//import Cookies from "js-cookie"; // Import js-cookie
+
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import "react-toastify/dist/ReactToastify.css";
 import { useCreateProviderMutation } from "../../api/providerApi.jsx";
-
+import { useCookies } from "react-cookie";
 
 const ProviderDetails = () => {
  
@@ -22,14 +23,14 @@ const ProviderDetails = () => {
   });
 
   const [imagePreview, setImagePreview] = useState(null); // Preview selected image
-
+  const [cookies, setCookie] = useCookies(["authToken"]);
   useEffect(() => {
-    const token = Cookies.get("authToken"); // Get JWT token
+    const token = cookies.authToken; // Get JWT token
     if (token) {
       try {
         const decode = jwtDecode(token);
         console.log("Decoded JWT:", decode);
-
+  
         if (!decode.userId) {
           console.error("User ID not found in token!");
           return;
@@ -39,7 +40,7 @@ const ProviderDetails = () => {
         console.log("Invalid token");
       }
     }
-  }, []);
+  }, [[cookies]]);
 
   // Handle Input Changes
   const handleChange = (e) => {
@@ -92,7 +93,11 @@ const ProviderDetails = () => {
 
     try {
       console.log("Submitting Data:", formDataToSend);
-       await createProvider(formDataToSend).unwrap();
+     const response=  await createProvider(formDataToSend).unwrap();
+       if (response?.token) {
+        setCookie("authToken", response.token, { path: "/", maxAge: 7 * 24 * 60 * 60, sameSite: "Lax", secure: false }); // 7 days
+        console.log("Token stored in cookies.");
+      }
        toast.success("Provider added successfully!");
       setTimeout(() => {
         navigate("/provider-profile"); // Redirect to myself profile

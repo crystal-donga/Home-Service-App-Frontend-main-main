@@ -1,17 +1,4 @@
-// import React from 'react'
-// import UserSidebar from './UserSidebar.jsx';
 
-// const UserProfile=()=> {
-//     return (
-//         <>
-//         {/* // < className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-//         //   <h1 className="text-2xl font-bold text-gray-800 mb-4">User Profile</h1> */}
-//           <UserSidebar />
-//         </>
-//       );
-// }
-
-// export default UserProfile
 import  { useState } from 'react';
 import UserSidebar from './UserSidebar.jsx';
 import UserDetailsForm from './UserDetailsForm.jsx';

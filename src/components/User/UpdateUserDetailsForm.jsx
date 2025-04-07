@@ -2,11 +2,13 @@ import React,{useState,useEffect}from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useUpdateUserDetailsMutation ,useGetUserDetailsQuery} from "../../api/userApi";
 
  function UpdateUserDetailsForm() {
+  const [cookies] = useCookies(["authToken"]);
     const [formData, setFormData] = useState({
       userId: "", // Ensure userId is included
       address: "",
@@ -25,7 +27,7 @@ import { useUpdateUserDetailsMutation ,useGetUserDetailsQuery} from "../../api/u
       const navigate = useNavigate();
 
         useEffect(() => {
-          const token = Cookies.get("authToken");
+          const token = cookies.authToken;
           if (token) {
             try {
               const decoded = jwtDecode(token);
@@ -38,7 +40,7 @@ import { useUpdateUserDetailsMutation ,useGetUserDetailsQuery} from "../../api/u
               console.log("Invalid token");
             }
           }
-        }, []);
+        }, [cookies]);
         
         // Fetch user details from API
    const { data: existingUserDetails, isLoading } = useGetUserDetailsQuery(formData.userId, {

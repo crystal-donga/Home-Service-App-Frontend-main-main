@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,6 +14,7 @@ import {
 
 export default function ProviderDetailsUpdate() {
   const [serviceProviderId, setServiceProviderId] = useState(null);
+  const [cookies] = useCookies(["authToken"]); 
   const [userId, setUserId] = useState(null);
   const [formData, setFormData] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -20,7 +22,7 @@ export default function ProviderDetailsUpdate() {
   const [updateProviderDetails, { isLoading, error }] = useUpdateProviderDetailsMutation();
 
   useEffect(() => {
-    const token = Cookies.get("authToken");
+    const token = cookies.authToken
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -38,7 +40,7 @@ export default function ProviderDetailsUpdate() {
         console.error("Invalid token", error);
       }
     }
-  }, []);
+  }, [[cookies]]);
   
 
   const { data: existingProviderDetails, isLoading: isProviderDetailsLoading } = useGetProviderDetailsQuery(userId, {

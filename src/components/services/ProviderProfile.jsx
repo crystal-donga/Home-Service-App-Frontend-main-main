@@ -1,19 +1,24 @@
 
 import  { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import { useGetProviderDetailsQuery,useDeleteProviderDetailsMutation } from "../../api/providerApi";
+import { useCookies } from "react-cookie";
 import { useNavigate ,Link} from "react-router-dom";
+import ProviderImage from "./ProviderImage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGetAllServicesQuery } from "../../api/serviceApi";
 //toast.configure();
  const ProviderProfile = () => {
   const [userId, setUserId] = useState();
   const [serviceProviderId,setServiceProviderId] = useState();
    const navigate = useNavigate()
    const [deleteProviderDetails] = useDeleteProviderDetailsMutation();
+   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]); 
+   
   useEffect(() => {
-    const token = Cookies.get("authToken");
+    const token = cookies.authToken;
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -33,8 +38,10 @@ import "react-toastify/dist/ReactToastify.css";
         console.error("Invalid Token");
       }
     }
-  }, []);
-
+  }, [cookies]);
+  const{data:services} = useGetAllServicesQuery(serviceProviderId,{
+    skip: !serviceProviderId,
+  })
   const handleEdit = () => {
     navigate("/provider-profile-update");
   };
@@ -43,13 +50,19 @@ import "react-toastify/dist/ReactToastify.css";
     
       if (confirmDelete) {
         try {
+          //if the provider service exits
+          if(services && services.length > 0){
+            toast.warning("You have active services, you cannot delete your profile");
+            navigate("/view-services");
+            return;
+          }
           // Call API to delete user (assuming you have `useDeleteUserMutation` hook)
           const response = await deleteProviderDetails({ serviceProviderId: provider.serviceProviderId }).unwrap();
-
+          //const response = await deleteProviderDetails(provider).unwrap();
           console.log("provider deleted successfully:", response);
     
           // Remove auth token from cookies
-          Cookies.remove("authToken");
+          removeCookie("authToken");
     
           // Clear local storage
           localStorage.removeItem("user");
@@ -70,18 +83,19 @@ import "react-toastify/dist/ReactToastify.css";
     skip: !userId, // Skip API call if userId is null
   });
   console.log("provider",provider)
-  
+ 
+  //console.log("images",provider.imageUrl)
 
   return (
     <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">My Profile</h2>
       {provider ? (
         <div className="flex flex-col items-center">
-          <img
-           src={provider.imageUrl ? `http://localhost:8080/api/service-providers/image/${provider.imageUrl}` : "https://via.placeholder.com/150"}
-            alt="Profile"
-            className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
-            onError={(e) => (e.target.src = "https://via.placeholder.com/150")}
+          <ProviderImage
+           imageName={provider.imageUrl}
+           alt={provider.userName}
+           className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
+          
           />
           <div className="mt-4 w-full">
             <p className="text-gray-700 text-lg">

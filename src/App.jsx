@@ -81,7 +81,7 @@ import Footer from "./components/layout/Footer";
 import AboutUs from "./pages/Aboutus";
 import Services from "./pages/Services";
 import { ToastContainer } from "react-toastify";
-import UpdateService from "./components/services/UpdateService";
+
 import AddServiceForm from "./components/services/AddServiceForm"
 import ViewService from "./components/services/ViewService"
 import ProviderDetails from "./components/services/ProviderDetails"
@@ -143,7 +143,7 @@ const App = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/services" element={<Services />} />
         <Route path="/add-service" element={<AddServiceForm/>} />
-        <Route path="/update-service" element ={<UpdateService/>} />
+       
         <Route path="/view-services" element ={<ViewService/>} />
         <Route path="/provider-details/register" element ={<ProviderDetails/>} />
         <Route path="/provider-profile" element ={<ProviderProfile/>} />

@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
+import { Cookies } from 'react-cookie';
+
+const cookies = new Cookies()
 
   const providerApi = createApi({
     reducerPath: 'providerApi',
@@ -7,12 +10,12 @@ import Cookies from 'js-cookie';
         baseUrl: 'http://localhost:8080/api/service-providers',
         credentials: "include", // Important: Ensures cookies are sent
         prepareHeaders: (headers) => {
-            const token = Cookies.get("authToken");
+            const token = cookies.get("authToken");
             console.log("token",token)
             if (token) {
               
 
-                headers.set('Authorization', `Bearer ${token}`);
+                headers.set('authToken', `Bearer ${token}`);
             }
             return headers;
         },
@@ -53,11 +56,21 @@ import Cookies from 'js-cookie';
             body: providerData,
         }),
     }),
+    getProviderImage:builder.query({
+        query:(ProviderImage)=>({
+            url:`/image/${ProviderImage}`,
+            method:'GET',
+            responseHandler:(response)=>response.blob()
+    
+        }),
+    }),
 
 }),
 })
 
 
 
-export const { useCreateProviderMutation,useGetProviderDetailsQuery ,useUpdateProviderDetailsMutation ,useDeleteProviderDetailsMutation} = providerApi;
+export const { useCreateProviderMutation,useGetProviderDetailsQuery ,
+    useUpdateProviderDetailsMutation ,useDeleteProviderDetailsMutation,
+     useGetProviderImageQuery} = providerApi;
 export default providerApi;

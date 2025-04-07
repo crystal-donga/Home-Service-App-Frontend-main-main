@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
+import { useCookies } from "react-cookie"; 
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import { useGetUserDetailsQuery ,useDeleteUserMutation  } from "../../api/userApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import UserImage from "./UserImage";
 
 function Me() {
+  const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate()
   const [deleteUser] = useDeleteUserMutation();
@@ -14,7 +16,7 @@ function Me() {
     skip: !userId,
   });
   useEffect(() => {
-    const token = Cookies.get("authToken");
+    const token = cookies.authToken;
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -28,7 +30,7 @@ function Me() {
         toast.error("Something went wrong");
       }
     }
-  }, []);
+  }, [cookies]);
 
   const handleEdit = () => {
     navigate("/user-profile-update");
@@ -43,9 +45,9 @@ function Me() {
         const response = await deleteUser(userDetails).unwrap();
         console.log("User deleted successfully:", response);
   
+       
         // Remove auth token from cookies
-        Cookies.remove("authToken");
-  
+        removeCookie("authToken", { path: "/" });
         // Clear local storage
         localStorage.removeItem("user");
   
@@ -75,7 +77,7 @@ function Me() {
 
   
   console.log("Merged User Data:", userDetails);
-   //console.log(userDetails.profilePictureUrl);
+ //  console.log(userDetails.profilePictureUrl);
   return (
     <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">My Profile</h2>
@@ -83,9 +85,9 @@ function Me() {
       {userDetails ? (
         <div className="flex flex-col items-center">
           {/* Profile Picture */}
-          <img
-            src={userDetails.profilePictureUrl ? `http://localhost:8080/api/user-details/image/${userDetails.profilePictureUrl}` : "https://via.placeholder.com/150"}
-            alt="Profile"
+          <UserImage
+            imageName={userDetails.profilePictureUrl} 
+            alt={userDetails.name}
             className="w-40 h-40 rounded-full border-4 border-gray-300 shadow-md object-cover"
           />
 
@@ -100,9 +102,9 @@ function Me() {
               <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">Phone:</span> {userDetails.phoneNumber}
               </p>
-              <p className="text-gray-700 text-lg">
+              {/* <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">Role:</span> {userDetails.role}
-              </p>
+              </p> */}
               <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">Date of Birth:</span> {userDetails.dateOfBirth}
               </p>

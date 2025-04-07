@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Ensure jwtDecode is imported
 import { useCreateServiceMutation } from "../../api/serviceApi"; 
-
+import { useCookies } from "react-cookie"; 
 import { useNavigate } from "react-router-dom";
 const categories = {
   Plumbing: [
@@ -77,6 +77,7 @@ const categories = {
 };
 
 export default function AddServiceForm() {
+  const [cookies] = useCookies(["authToken"]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedService, setSelectedService] = useState("");
   const [imagePreview, setImagePreview] = useState();
@@ -94,7 +95,7 @@ export default function AddServiceForm() {
     image_url: null,
   });
   useEffect(() => {
-    const token = Cookies.get("authToken");
+    const token = cookies.authToken;
     if (token) {
       const decoded = jwtDecode(token);
       console.log(decoded)
@@ -103,7 +104,7 @@ export default function AddServiceForm() {
         serviceProvider: decoded.serviceProviderId,
       }));
     }
-  }, []);
+  }, [[cookies]]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -296,6 +297,7 @@ export default function AddServiceForm() {
         >
           Submit
         </button>
+
       </form>
     </div>
   );

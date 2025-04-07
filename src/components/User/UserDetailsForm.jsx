@@ -2,11 +2,12 @@ import  { useState, useEffect} from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import  {useCreateUserDetailsMutation }  from "../../api/userApi";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Ensure jwtDecode is imported
 import { useNavigate } from "react-router-dom";
-
+import { useCookies } from "react-cookie";
 const UserDetailsForm = () => {
+  const [cookies] = useCookies(["authToken"]);
   const [formData, setFormData] = useState({
     userId: "", // Ensure userId is included
     address: "",
@@ -25,7 +26,7 @@ const UserDetailsForm = () => {
   const [createUserDetails] = useCreateUserDetailsMutation();
   const navigate = useNavigate();
   useEffect(() => {
-    const token = Cookies.get("authToken");
+    const token = cookies.authToken;
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -38,7 +39,7 @@ const UserDetailsForm = () => {
         console.log("Invalid token");
       }
     }
-  }, []);
+  }, [cookies]);
 
 
 

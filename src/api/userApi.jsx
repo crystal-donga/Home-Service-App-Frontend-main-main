@@ -1,16 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
+import { Cookies } from "react-cookie";
 
+const cookie= new Cookies();//react cookie
 const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:8080/api/user-details',
     credentials: "include", // Ensures cookies are sent
     prepareHeaders: (headers) => {
-      const token = Cookies.get("authToken");
+      const token = cookie.get("authToken");
       console.log("token", token);
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set('authToken', `Bearer ${token}`);
       }
       return headers;
     },
@@ -62,10 +64,20 @@ const userApi = createApi({
           }
           return response;
         },
-    })
+    }),
+     getUserImage:builder.query({
+      query:(imageName)=>({
+        url:`/image/${imageName}`,
+        method:"GET",
+        responseHandler:(response)=>response.blob()
+
+        
+      }),
+     }),
   }),
 });
 
 
-export const { useCreateUserDetailsMutation, useUpdateUserDetailsMutation, useGetUserDetailsQuery ,useDeleteUserMutation } = userApi;
+export const { useCreateUserDetailsMutation, useUpdateUserDetailsMutation, useGetUserDetailsQuery 
+             ,useDeleteUserMutation ,useGetUserImageQuery} = userApi;
 export default userApi; 

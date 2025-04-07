@@ -1,14 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; 
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
+import { Cookies } from "react-cookie";
+
+  const cookie= new Cookies();//react cookie
   const serviceApi = createApi({
     reducerPath: "serviceApi",
     baseQuery:fetchBaseQuery({
         baseUrl: "http://localhost:8080/api/services",
         credentials: "include",
         prepareHeaders:(Header)=>{
-            const token = Cookies.get("token");
+            const token = cookie.get("authToken");
             if (token) {
-                Header.set("Authorization", `Bearer ${token}`);
+                Header.set("authToken", `Bearer ${token}`);
 
         }
         return Header;
@@ -24,8 +27,8 @@ import Cookies from "js-cookie";
             }),
         }),
         getAllServices: builder.query({
-            query: () => ({
-                url: `/get-all`, 
+            query: (providerId) => ({
+                url: `/provider/${providerId}`, 
                 method: 'GET',
             }),
     
@@ -47,7 +50,22 @@ import Cookies from "js-cookie";
                 method:'DELETE',
             }),
         }),
+        getServiceImage:builder.query({
+            query:(imageName)=>({
+                url:`/image/${imageName}`,
+                method:'GET', 
+                responseHandler:(response) => response.blob(), 
+            }),
+        }),
+        getAll:builder.query({
+            query:()=>({
+                url:'/get-all',
+                method:'GET',
+            })
+        })
     })
 })
-export const { useCreateServiceMutation,useGetAllServicesQuery,useDeleteServiceMutation,useUpdateServiceMutation } = serviceApi;
+export const { useCreateServiceMutation,useGetAllServicesQuery,
+              useDeleteServiceMutation,useUpdateServiceMutation 
+              ,useGetServiceImageQuery ,useGetAllQuery} = serviceApi;
 export default serviceApi;

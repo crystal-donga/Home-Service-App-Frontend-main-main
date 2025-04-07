@@ -1,5 +1,11 @@
 import axios from 'axios';
-
+// Utility function to get a cookie by name
+function getCookie(name) {
+    const matches = document.cookie.match(new RegExp(
+        '(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)'
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 // Create axios instance
 const api = axios.create({
     baseURL: 'http://localhost:8080/',
@@ -11,7 +17,7 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('authToken');
+        const token = getCookie('authToken');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
@@ -28,16 +34,14 @@ api.interceptors.response.use(
         return response;
     },
     (error) => {
-        // Handle 401 (Unauthorized) responses
         if (error.response && error.response.status === 401) {
-            // Clear auth data and redirect to login
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('user');
+            // Redirect to login on 401
             window.location.href = '/login';
         }
         return Promise.reject(error);
     }
 );
+
 
 // Auth services
 const authService = {
@@ -49,8 +53,8 @@ const authService = {
     },
     logout: () => {
         return api.post('/auth/logout').then(() => {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('user');
+            // Optional: Clear cookie on logout if server doesn't handle it
+            document.cookie = 'authToken=; Max-Age=0; path=/;';
         });
     },
     getCurrentUser: () => {
@@ -58,5 +62,4 @@ const authService = {
     },
 };
 
-// Export services
 export { api, authService };

@@ -5,9 +5,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDeleteServiceMutation } from "../api/serviceApi";
 import UpdateService from "../components/services/UpdateService";
 import { useState } from "react";
+import ServiceImage from "../components/services/ServiceImage";
 function ServiceCard({ service = {} }) {
   const [deleteService, { isLoading }] = useDeleteServiceMutation();
   const [isEditOpen, setIsEditOpen] = useState(false);
+
   if (!service || Object.keys(service).length === 0) {
     return (
       <div className="bg-white shadow-md rounded-md p-6">
@@ -31,7 +33,7 @@ function ServiceCard({ service = {} }) {
         // Call API to delete user (assuming you have `useDeleteUserMutation` hook)
         const response = await deleteService(service.serviceId).unwrap();
         console.log("Service deleted successfully:", response);
-        toast.success("Your profile has been deleted successfully!");
+        toast.success("Your service has been deleted successfully!");
       } catch (error) {
         console.error("Error deleting profile:", error);
         toast.error("Failed to delete profile. Please try again.");
@@ -39,15 +41,10 @@ function ServiceCard({ service = {} }) {
     }
   };
   return (
-    // <div className="bg-gray-300 shadow-md rounded-md p-6">
     <div>
-      <img
-        src={
-          service.imageUrl
-            ? `http://localhost:8080/api/services/image/${service.imageUrl}`
-            : "https://via.placeholder.com/150"
-        }
-        alt={service.serviceName || "Service image"}
+      <ServiceImage
+        imageName={service.imageUrl}
+        alt={service.serviceName}
         className="w-full h-40 object-cover rounded-md mb-4 transition-all duration-300 hover:scale-110"
       />
 
@@ -78,7 +75,7 @@ function ServiceCard({ service = {} }) {
         </span>
       </p>
       <p className="text-gray-800 font-semibold mt-1">
-        Provider:{" "}
+        Comapny Name:{" "}
         <span className="text-gray-500">
           {service.serviceProviderName
             ? `${service.serviceProviderName}`
@@ -110,13 +107,13 @@ function ServiceCard({ service = {} }) {
           <span>Edit</span>
         </button>
         {isEditOpen && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
-      <UpdateService
-        service={service}
-        onClose={() => setIsEditOpen(false)}
-      />
-    </div>
-  )}
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
+            <UpdateService
+              service={service}
+              onClose={() => setIsEditOpen(false)}
+            />
+          </div>
+        )}
 
         <button
           onClick={handleDelete}
