@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+
 const UserDetailsForm = () => {
   const [cookies] = useCookies(["authToken"]);
   const [formData, setFormData] = useState({

@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 
 import Input from "../common/Input";
 import Button from "../common/Button";
-import { useCookies } from "react-cookie";
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["authToken"]); 
