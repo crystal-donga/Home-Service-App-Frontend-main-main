@@ -1,27 +1,36 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 //import Cookies from "js-cookie"; // Import js-cookie
 
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import "react-toastify/dist/ReactToastify.css";
 import { useCreateProviderMutation } from "../../api/providerApi.jsx";
 import { useCookies } from "react-cookie";
+=======
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from "react-cookie"; // ✅ REACT COOKIE
+import "react-toastify/dist/ReactToastify.css";
+import { useCreateProviderMutation } from "../../api/providerApi.jsx";
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 
 const ProviderDetails = () => {
- 
   const navigate = useNavigate();
-  const [createProvider,{isLoading},error] = useCreateProviderMutation();
-  // State for form inputs
+  const [createProvider, { isLoading }, error] = useCreateProviderMutation();
+
+  const [cookies, setCookie] = useCookies(["authToken"]); // ✅
+
   const [formData, setFormData] = useState({
-    userId: "", // Extracted from JWT
+    userId: "",
     companyName: "",
-    companyNumber:"",
+    companyNumber: "",
     experienceYears: "",
     address: "",
-    imageUrl: "", 
+    imageUrl: "",
   });
 
+<<<<<<< HEAD
   const [imagePreview, setImagePreview] = useState(null); // Preview selected image
   const [cookies, setCookie] = useCookies(["authToken"]);
   useEffect(() => {
@@ -31,6 +40,15 @@ const ProviderDetails = () => {
         const decode = jwtDecode(token);
         console.log("Decoded JWT:", decode);
   
+=======
+  const [imagePreview, setImagePreview] = useState(null);
+
+  useEffect(() => {
+      const token = cookies.authToken;
+    if (token) {
+      try {
+        const decode = jwtDecode(token);
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
         if (!decode.userId) {
           console.error("User ID not found in token!");
           return;
@@ -40,9 +58,12 @@ const ProviderDetails = () => {
         console.log("Invalid token");
       }
     }
+<<<<<<< HEAD
   }, [[cookies]]);
+=======
+  }, [cookies]);
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 
-  // Handle Input Changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -54,44 +75,53 @@ const ProviderDetails = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-        setFormData({ ...formData, imageUrl: file });
-    }
-    const reader = new FileReader();
+      setFormData({ ...formData, imageUrl: file });
+
+      const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
-};
+    }
+  };
 
-
-  // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.companyName || !formData.experienceYears || !formData.address|| !formData.companyNumber) {
+    if (
+      !formData.companyName ||
+      !formData.companyNumber ||
+      !formData.experienceYears ||
+      !formData.address
+    ) {
       toast.error("Please fill out all fields!");
       return;
     }
-    const providerDetailsBlob = new Blob([JSON.stringify({
-      userId: formData.userId,
-      companyName: formData.companyName,
-      companyNumber: formData.companyNumber,
-      experienceYears: formData.experienceYears,
-      address: formData.address
-      
-  })], { type: 'application/json' });
-  
-  const formDataToSend = new FormData();
 
-  formDataToSend.append("ServiceProviderRegisterDto",providerDetailsBlob);
-  if (formData.imageUrl) {
-    formDataToSend.append("imageFile", formData.imageUrl);
-} else {
-    console.warn("No image selected");
-}
-  
+    const providerDetailsBlob = new Blob(
+      [
+        JSON.stringify({
+          userId: formData.userId,
+          companyName: formData.companyName,
+          companyNumber: formData.companyNumber,
+          experienceYears: formData.experienceYears,
+          address: formData.address,
+        }),
+      ],
+      { type: "application/json" }
+    );
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("ServiceProviderRegisterDto", providerDetailsBlob);
+
+    if (formData.imageUrl) {
+      formDataToSend.append("imageFile", formData.imageUrl);
+    } else {
+      console.warn("No image selected");
+    }
 
     try {
+<<<<<<< HEAD
       console.log("Submitting Data:", formDataToSend);
      const response=  await createProvider(formDataToSend).unwrap();
        if (response?.token) {
@@ -99,14 +129,24 @@ const ProviderDetails = () => {
         console.log("Token stored in cookies.");
       }
        toast.success("Provider added successfully!");
+=======
+      const response = await createProvider(formDataToSend).unwrap();
+
+      if (response?.token) {
+        setCookie("authToken", response.token, { path: "/", maxAge: 7 * 24 * 60 * 60, sameSite: "Lax", secure: false }); // 7 days
+        console.log("Token stored in cookies.");
+      }
+
+      toast.success("Provider added successfully!");
+
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
       setTimeout(() => {
-        navigate("/provider-profile"); // Redirect to myself profile
+        navigate("/provider-profile");
       }, 2000);
     } catch (error) {
       console.error("Error saving provider details:", error);
-       // Display error message from backend response
-    const errorMessage =
-    error?.data?.error || "Failed to add provider. Please try again.";
+      const errorMessage =
+        error?.data?.error || "Failed to add provider. Please try again.";
       toast.error(errorMessage);
     }
   };
@@ -116,7 +156,6 @@ const ProviderDetails = () => {
       <h2 className="text-2xl font-bold mb-4 text-center">Add Provider Details</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Company Name */}
         <div>
           <label className="block text-gray-700 font-medium">Company Name</label>
           <input
@@ -129,8 +168,8 @@ const ProviderDetails = () => {
             required
           />
         </div>
-            {/* Company Number */}
-         <div>
+
+        <div>
           <label className="block text-gray-700 font-medium">Company Number</label>
           <input
             type="number"
@@ -143,7 +182,6 @@ const ProviderDetails = () => {
           />
         </div>
 
-        {/* Experience Years */}
         <div>
           <label className="block text-gray-700 font-medium">Years of Experience</label>
           <input
@@ -157,7 +195,6 @@ const ProviderDetails = () => {
           />
         </div>
 
-        {/* Address */}
         <div>
           <label className="block text-gray-700 font-medium">Address</label>
           <textarea
@@ -171,7 +208,6 @@ const ProviderDetails = () => {
           ></textarea>
         </div>
 
-        {/* Profile Image Upload */}
         <div>
           <label className="block text-gray-700 font-medium">Profile Image</label>
           <input
@@ -189,7 +225,6 @@ const ProviderDetails = () => {
           )}
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
@@ -203,4 +238,3 @@ const ProviderDetails = () => {
 };
 
 export default ProviderDetails;
-

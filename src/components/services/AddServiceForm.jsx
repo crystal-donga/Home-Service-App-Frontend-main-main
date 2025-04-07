@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+<<<<<<< HEAD
 //import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Ensure jwtDecode is imported
 import { useCreateServiceMutation } from "../../api/serviceApi"; 
 import { useCookies } from "react-cookie"; 
+=======
+import { jwtDecode } from "jwt-decode";
+import { useCreateServiceMutation } from "../../api/serviceApi";
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie"; // ✅ react-cookie
+
 const categories = {
   Plumbing: [
     "Pipe Repair",
@@ -84,27 +91,32 @@ export default function AddServiceForm() {
   const [errors, setErrors] = useState({});
   const [createService] = useCreateServiceMutation();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     serviceProvider: "",
     description: "",
     price: "",
-    serviceName:"",
+    serviceName: "",
     category: "",
     expectedDuration: "",
     status: true,
     image_url: null,
   });
+
   useEffect(() => {
     const token = cookies.authToken;
     if (token) {
       const decoded = jwtDecode(token);
-      console.log(decoded)
       setFormData((prevData) => ({
         ...prevData,
         serviceProvider: decoded.serviceProviderId,
       }));
     }
+<<<<<<< HEAD
   }, [[cookies]]);
+=======
+  }, [cookies]);
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -114,63 +126,57 @@ export default function AddServiceForm() {
     const file = e.target.files[0];
     if (file) {
       setFormData({ ...formData, image_url: file });
+
+      const reader = new FileReader();
+      reader.onload = () => setImagePreview(reader.result);
+      reader.readAsDataURL(file);
     }
-    //image preview
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImagePreview(reader.result);
-    };
-    reader.readAsDataURL(file);
   };
+
   const validation = () => {
     let newErrors = {};
-    if (!formData.description)
-      newErrors.description = "please fill description";
+    if (!formData.description) newErrors.description = "please fill description";
     if (!formData.price) newErrors.price = "please fill price";
-    if (!formData.expectedDuration)
-      newErrors.expectedDuration = "please fill expected duration";
+    if (!formData.expectedDuration) newErrors.expectedDuration = "please fill expected duration";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validation()) {
       toast.error("Please fill in all required fields.");
       return;
     }
-    console.log({
-      ...formData,
-      category: selectedCategory,
-      serviceName: selectedService,
-    });
 
-    const serviceDetailsBlob = new Blob([JSON.stringify({
-    serviceProvider: formData.serviceProvider,
-    category: selectedCategory, 
-    serviceName: selectedService,
-    description: formData.description,
-    price: formData.price,
-    expectedDuration: formData.expectedDuration,
-    status: formData.status
-    
-  })], { type: 'application/json' });
-  
-  const formDataToSend = new FormData();
+    const serviceDetailsBlob = new Blob(
+      [
+        JSON.stringify({
+          serviceProvider: formData.serviceProvider,
+          category: selectedCategory,
+          serviceName: selectedService,
+          description: formData.description,
+          price: formData.price,
+          expectedDuration: formData.expectedDuration,
+          status: formData.status,
+        }),
+      ],
+      { type: "application/json" }
+    );
 
-  formDataToSend.append("ServicesRegisterDto",serviceDetailsBlob);
-  if (formData.image_url) {
-    formDataToSend.append("imageFile", formData.image_url);
-} else {
-    console.warn("No image selected");
-}
+    const formDataToSend = new FormData();
+    formDataToSend.append("ServicesRegisterDto", serviceDetailsBlob);
+    if (formData.image_url) {
+      formDataToSend.append("imageFile", formData.image_url);
+    } else {
+      console.warn("No image selected");
+    }
 
-     try{
-      console.log("formdatatosend",formDataToSend)
-       await createService(formDataToSend).unwrap()
-       toast.success("Service created successfully");
-       navigate("/view-services")
-     }catch (error) {
+    try {
+      await createService(formDataToSend).unwrap();
+      toast.success("Service created successfully");
+      navigate("/view-services");
+    } catch (error) {
       toast.error(error?.data?.message || "Failed to submit user details.");
     }
   };
@@ -199,7 +205,7 @@ export default function AddServiceForm() {
           </select>
         </div>
 
-        {/* Service Dropdown (Changes Based on Category) */}
+        {/* Service Dropdown */}
         {selectedCategory && (
           <div>
             <label className="block text-gray-700 font-medium">
@@ -220,7 +226,7 @@ export default function AddServiceForm() {
           </div>
         )}
 
-        {/* Other Fields */}
+        {/* Description */}
         <div>
           <label className="block text-gray-700 font-medium">Description</label>
           <textarea
@@ -231,6 +237,7 @@ export default function AddServiceForm() {
           />
         </div>
 
+        {/* Price */}
         <div>
           <label className="block text-gray-700 font-medium">Price</label>
           <input
@@ -242,6 +249,7 @@ export default function AddServiceForm() {
           />
         </div>
 
+        {/* Expected Duration */}
         <div>
           <label className="block text-gray-700 font-medium">
             Expected Duration (in minutes)
@@ -254,6 +262,8 @@ export default function AddServiceForm() {
             className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
           />
         </div>
+
+        {/* Status */}
         <div>
           <label className="block text-gray-700 font-medium">Available</label>
           <select
@@ -284,8 +294,8 @@ export default function AddServiceForm() {
           {imagePreview && (
             <img
               src={imagePreview}
-              alt="Profile Preview"
-              className="mt-2 w-32 h-32 rounded-full object-cover border"
+              alt="Service Preview"
+              className="mt-2 w-32 h-32 rounded object-cover border"
             />
           )}
         </div>

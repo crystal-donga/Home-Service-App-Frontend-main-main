@@ -1,15 +1,21 @@
-import  { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+<<<<<<< HEAD
 import  {useCreateUserDetailsMutation }  from "../../api/userApi";
 //import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Ensure jwtDecode is imported
+=======
+import { useCreateUserDetailsMutation } from "../../api/userApi";
+import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 const UserDetailsForm = () => {
   const [cookies] = useCookies(["authToken"]);
   const [formData, setFormData] = useState({
-    userId: "", // Ensure userId is included
+    userId: "",
     address: "",
     city: "",
     state: "",
@@ -17,14 +23,13 @@ const UserDetailsForm = () => {
     zipCode: "",
     dateOfBirth: "",
     profilePictureUrl: null,
-   
-    
   });
 
   const [errors, setErrors] = useState({});
   const [imagePreview, setImagePreview] = useState(null);
   const [createUserDetails] = useCreateUserDetailsMutation();
   const navigate = useNavigate();
+
   useEffect(() => {
     const token = cookies.authToken;
     if (token) {
@@ -40,8 +45,11 @@ const UserDetailsForm = () => {
       }
     }
   }, [cookies]);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,18 +58,15 @@ const UserDetailsForm = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-        setFormData({ ...formData, profilePictureUrl: file });
-    }
-    // Image preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-        //setFormData({ ...formData, profilePictureUrl: reader.result }); 
-        setImagePreview(reader.result);
-     
-    };
-    reader.readAsDataURL(file);
-};
+      setFormData({ ...formData, profilePictureUrl: file });
 
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const validateForm = () => {
     let newErrors = {};
@@ -71,12 +76,10 @@ const UserDetailsForm = () => {
     if (!formData.country) newErrors.country = "Country is required";
     if (!formData.zipCode) newErrors.zipCode = "Zip Code is required";
     if (!formData.dateOfBirth) newErrors.dateOfBirth = "Date of Birth is required";
-    //  if (!formData.profilePictureUrl) newErrors.profilePicture = "Profile Picture is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,37 +87,35 @@ const UserDetailsForm = () => {
       toast.error("Please fill in all required fields.");
       return;
     }
-    const userDetailsBlob = new Blob([JSON.stringify({
-      userId: formData.userId,
-      address: formData.address,
-      city: formData.city,
-      state: formData.state,
-      country: formData.country,
-      zipCode: formData.zipCode,
-      dateOfBirth: formData.dateOfBirth
-  })], { type: 'application/json' });
-  
-  const formDataToSend = new FormData();
 
-  formDataToSend.append("UserDetailsRegisterDto",userDetailsBlob);
-  if (formData.profilePictureUrl) {
-    formDataToSend.append("imageFile", formData.profilePictureUrl);
-} else {
-    console.warn("No image selected");
-}
-  
-  for (let pair of formDataToSend.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+    const userDetailsBlob = new Blob(
+      [
+        JSON.stringify({
+          userId: formData.userId,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          country: formData.country,
+          zipCode: formData.zipCode,
+          dateOfBirth: formData.dateOfBirth,
+        }),
+      ],
+      { type: "application/json" }
+    );
 
-    
+    const formDataToSend = new FormData();
+    formDataToSend.append("UserDetailsRegisterDto", userDetailsBlob);
+
+    if (formData.profilePictureUrl) {
+      formDataToSend.append("imageFile", formData.profilePictureUrl);
+    } else {
+      console.warn("No image selected");
+    }
+
     try {
-      console.log("formdatatosend",formDataToSend)
-     await createUserDetails(formDataToSend).unwrap();
-    //console.log("response",response)
+      await createUserDetails(formDataToSend).unwrap();
       toast.success("User details submitted successfully!");
-      navigate("/me")
-      
+      navigate("/me");
     } catch (error) {
       toast.error(error?.data?.message || "Failed to submit user details.");
     }
@@ -126,11 +127,10 @@ const UserDetailsForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {[
-           { name: "address", label: "Address" },
-           { name: "city", label: "City" },
-           { name: "state", label: "State" }, 
+          { name: "address", label: "Address" },
+          { name: "city", label: "City" },
+          { name: "state", label: "State" },
           { name: "country", label: "Country" },
-        
           { name: "zipCode", label: "Zip Code" },
           { name: "dateOfBirth", label: "Date of Birth", type: "date" },
         ].map(({ name, label, type = "text" }) => (
@@ -147,7 +147,6 @@ const UserDetailsForm = () => {
           </div>
         ))}
 
-        {/* Profile Picture Upload */}
         <div>
           <label className="block text-gray-700 font-medium">Profile Image</label>
           <input
@@ -166,7 +165,6 @@ const UserDetailsForm = () => {
           )}
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
@@ -179,5 +177,3 @@ const UserDetailsForm = () => {
 };
 
 export default UserDetailsForm;
-
-

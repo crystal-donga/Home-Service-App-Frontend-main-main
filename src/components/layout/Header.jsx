@@ -1,9 +1,5 @@
-
-
-
-
-
 import { Link, useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 //import Cookies from "js-cookie";
 import { useCookies } from "react-cookie";
 // const getUserRole = () => {
@@ -19,13 +15,20 @@ import { useCookies } from "react-cookie";
 //     return null;
 //   }
 // };
+=======
+import { useCookies } from "react-cookie";
+
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 // Extract role from JWT token stored in cookie
 const getUserRoleFromToken = (token) => {
   if (!token) return null;
 
   try {
     const tokenPayload = JSON.parse(atob(token.split(".")[1]));
+<<<<<<< HEAD
     console.log("in token geeting role" + tokenPayload.role)
+=======
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
     return tokenPayload.role;
   } catch (error) {
     console.error("Error decoding token:", error);
@@ -36,10 +39,15 @@ const getUserRoleFromToken = (token) => {
 const Header = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
+<<<<<<< HEAD
+=======
+  
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
   const authToken = cookies.authToken;
   const isAuthenticated = !!authToken;
   const userRole = getUserRoleFromToken(authToken);
 
+<<<<<<< HEAD
   console.log("heder user role",userRole)
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -47,6 +55,10 @@ const Header = () => {
   const handleLogout = () => {
     removeCookie("authToken", { path: "/" });
     localStorage.removeItem("user");
+=======
+  const handleLogout = () => {
+    removeCookie("authToken", { path: "/" });
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
     navigate("/login");
   };
 
@@ -65,7 +77,7 @@ const Header = () => {
             Dashboard
           </Link>
         )}
-          {isAuthenticated && userRole === "USER" && (
+        {isAuthenticated && userRole === "USER" && (
           <Link to="/user-profile" className="text-white hover:text-gray-200 transition duration-300 underline-offset-4 hover:underline">
             Profile
           </Link>
@@ -108,3 +120,4 @@ const Header = () => {
 };
 
 export default Header;
+

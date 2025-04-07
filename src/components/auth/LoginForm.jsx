@@ -1,22 +1,28 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+<<<<<<< HEAD
 // import Cookies from "js-cookie";
+=======
+import { useCookies } from "react-cookie"; 
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 import Input from "../common/Input";
 import Button from "../common/Button";
 import { useCookies } from "react-cookie";
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["authToken"]); 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "User", // Default role
+    role: "USER", // Default role
   });
+
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [cookies, setCookie] = useCookies(["authToken"]);
   const roleColors = {
-    User: "bg-blue-100",
+    USER: "bg-blue-100",
     PROVIDER: "bg-green-100",
   };
 
@@ -24,7 +30,10 @@ const LoginForm = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]:
+        name === "role" && (value.toUpperCase() === "USER" || value.toUpperCase() === "PROVIDER")
+          ? value.toUpperCase()
+          : value,
     });
   };
 
@@ -44,21 +53,14 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submit button clicked");
-
-    if (!validate()) {
-      //console.log("Validation failed", errors);
-      return;
-    }
-
+    if (!validate()) return;
     setIsLoading(true);
-    //console.log("Sending request to backend...");
 
     try {
       const response = await axios.post("http://localhost:8080/auth/login", {
         email: formData.email,
         password: formData.password,
-        role: formData.role.toUpperCase(), // Convert role to uppercase
+        role: formData.role,
       });
 
       const token = response.data.token;
@@ -69,6 +71,7 @@ const LoginForm = () => {
         secure: false,
         sameSite: "Lax",
       });
+<<<<<<< HEAD
       // Store user info in localStorage
       localStorage.setItem("user", JSON.stringify(response.data));
 
@@ -80,6 +83,11 @@ const LoginForm = () => {
       } else {
         navigate("/dashboard");
       }
+=======
+
+      // Redirect based on role
+      navigate(formData.role === "USER" ? "/services" : "/dashboard");
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
     } catch (error) {
       console.error("Login error:", error.response?.data);
       setErrors({
@@ -132,8 +140,13 @@ const LoginForm = () => {
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg"
           >
+<<<<<<< HEAD
             <option value="User">User</option>
             <option value="PROVIDER">SERVICEPROVIDER</option>
+=======
+            <option value="USER">User</option>
+            <option value="PROVIDER">Service Provider</option>
+>>>>>>> a46e343357c35832d1216f0d119589e8f432de23
           </select>
         </div>
 
@@ -141,6 +154,7 @@ const LoginForm = () => {
           Sign in
         </Button>
       </form>
+
       <div className="text-center mt-2">
         <p className="text-sm text-gray-600">
           Not Registered?{" "}
