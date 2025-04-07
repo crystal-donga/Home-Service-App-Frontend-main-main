@@ -1,25 +1,19 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-//import Cookies from "js-cookie"; // Import js-cookie
+
 
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import "react-toastify/dist/ReactToastify.css";
 import { useCreateProviderMutation } from "../../api/providerApi.jsx";
 import { useCookies } from "react-cookie";
-=======
-import { jwtDecode } from "jwt-decode";
-import { useCookies } from "react-cookie"; // ✅ REACT COOKIE
-import "react-toastify/dist/ReactToastify.css";
-import { useCreateProviderMutation } from "../../api/providerApi.jsx";
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 
 const ProviderDetails = () => {
   const navigate = useNavigate();
   const [createProvider, { isLoading }, error] = useCreateProviderMutation();
 
-  const [cookies, setCookie] = useCookies(["authToken"]); // ✅
+  const [cookies, setCookie] = useCookies(["authToken"]); // react cookie
 
   const [formData, setFormData] = useState({
     userId: "",
@@ -30,25 +24,20 @@ const ProviderDetails = () => {
     imageUrl: "",
   });
 
-<<<<<<< HEAD
+
   const [imagePreview, setImagePreview] = useState(null); // Preview selected image
-  const [cookies, setCookie] = useCookies(["authToken"]);
-  useEffect(() => {
-    const token = cookies.authToken; // Get JWT token
-    if (token) {
-      try {
-        const decode = jwtDecode(token);
-        console.log("Decoded JWT:", decode);
+ // const [cookies, setCookie] = useCookies(["authToken"]);
   
-=======
-  const [imagePreview, setImagePreview] = useState(null);
+  
+
+  
 
   useEffect(() => {
       const token = cookies.authToken;
     if (token) {
       try {
         const decode = jwtDecode(token);
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
         if (!decode.userId) {
           console.error("User ID not found in token!");
           return;
@@ -58,11 +47,9 @@ const ProviderDetails = () => {
         console.log("Invalid token");
       }
     }
-<<<<<<< HEAD
-  }, [[cookies]]);
-=======
+
   }, [cookies]);
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -121,7 +108,7 @@ const ProviderDetails = () => {
     }
 
     try {
-<<<<<<< HEAD
+
       console.log("Submitting Data:", formDataToSend);
      const response=  await createProvider(formDataToSend).unwrap();
        if (response?.token) {
@@ -129,17 +116,7 @@ const ProviderDetails = () => {
         console.log("Token stored in cookies.");
       }
        toast.success("Provider added successfully!");
-=======
-      const response = await createProvider(formDataToSend).unwrap();
 
-      if (response?.token) {
-        setCookie("authToken", response.token, { path: "/", maxAge: 7 * 24 * 60 * 60, sameSite: "Lax", secure: false }); // 7 days
-        console.log("Token stored in cookies.");
-      }
-
-      toast.success("Provider added successfully!");
-
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
       setTimeout(() => {
         navigate("/provider-profile");
       }, 2000);

@@ -6,6 +6,7 @@ import { useDeleteServiceMutation } from "../api/serviceApi";
 import UpdateService from "../components/services/UpdateService";
 import { useState } from "react";
 import ServiceImage from "../components/services/ServiceImage";
+
 function ServiceCard({ service = {} }) {
   const [deleteService, { isLoading }] = useDeleteServiceMutation();
   const [isEditOpen, setIsEditOpen] = useState(false);

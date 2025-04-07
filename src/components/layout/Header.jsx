@@ -1,34 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-//import Cookies from "js-cookie";
-import { useCookies } from "react-cookie";
-// const getUserRole = () => {
-//   const authToken = Cookies.get("authToken");
-//   if (!authToken) return null;
-
-//   try {
-//     const tokenPayload = JSON.parse(atob(authToken.split(".")[1])); 
-//     console.log("in token geeting role" + tokenPayload.role)
-//     return tokenPayload.role;
-//   } catch (error) {
-//     console.error("Error decoding token:", error);
-//     return null;
-//   }
-// };
-=======
 import { useCookies } from "react-cookie";
 
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 // Extract role from JWT token stored in cookie
 const getUserRoleFromToken = (token) => {
   if (!token) return null;
 
   try {
     const tokenPayload = JSON.parse(atob(token.split(".")[1]));
-<<<<<<< HEAD
+
     console.log("in token geeting role" + tokenPayload.role)
-=======
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
     return tokenPayload.role;
   } catch (error) {
     console.error("Error decoding token:", error);
@@ -39,15 +21,12 @@ const getUserRoleFromToken = (token) => {
 const Header = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
-<<<<<<< HEAD
-=======
-  
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
   const authToken = cookies.authToken;
   const isAuthenticated = !!authToken;
   const userRole = getUserRoleFromToken(authToken);
 
-<<<<<<< HEAD
+
   console.log("heder user role",userRole)
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -55,11 +34,10 @@ const Header = () => {
   const handleLogout = () => {
     removeCookie("authToken", { path: "/" });
     localStorage.removeItem("user");
-=======
-  const handleLogout = () => {
-    removeCookie("authToken", { path: "/" });
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
     navigate("/login");
+  
+
+    
   };
 
   return (

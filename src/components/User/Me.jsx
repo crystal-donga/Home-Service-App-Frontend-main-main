@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
 //import Cookies from "js-cookie";
 import { useCookies } from "react-cookie"; 
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
@@ -7,13 +6,6 @@ import { useGetUserDetailsQuery ,useDeleteUserMutation  } from "../../api/userAp
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import UserImage from "./UserImage";
-=======
-import { useCookies } from "react-cookie"; // react-cookie hook
-import { jwtDecode } from "jwt-decode";
-import { useGetUserDetailsQuery, useDeleteUserMutation } from "../../api/userApi";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 
 function Me() {
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
@@ -56,7 +48,7 @@ function Me() {
       try {
         const response = await deleteUser(userDetails).unwrap();
         console.log("User deleted successfully:", response);
-<<<<<<< HEAD
+
   
        
         // Remove auth token from cookies
@@ -65,12 +57,7 @@ function Me() {
         localStorage.removeItem("user");
   
         // Show success message
-=======
 
-        // Remove auth token from cookies
-        removeCookie("authToken", { path: "/" });
-
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
         toast.success("Your profile has been deleted successfully!");
         navigate("/login");
       } catch (error) {
@@ -88,16 +75,7 @@ function Me() {
     );
   }
 
-<<<<<<< HEAD
-  // if(detailsError){
-  //   return <div className="text-center text-red-500 text-lg font-semibold">Error</div>
-  //   };
 
-  
-  console.log("Merged User Data:", userDetails);
- //  console.log(userDetails.profilePictureUrl);
-=======
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
   return (
     <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
@@ -106,19 +84,19 @@ function Me() {
 
       {userDetails ? (
         <div className="flex flex-col items-center">
-<<<<<<< HEAD
+
           {/* Profile Picture */}
           <UserImage
             imageName={userDetails.profilePictureUrl} 
             alt={userDetails.name}
             className="w-40 h-40 rounded-full border-4 border-gray-300 shadow-md object-cover"
           />
-=======
+
           {/* Profile picture or default SVG */}
           <div className="w-40 h-40 rounded-full border-4 border-gray-300 shadow-md overflow-hidden">
             {/* SVG avatar here (unchanged) */}
           </div>
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 
           <div className="mt-6 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,16 +112,16 @@ function Me() {
                 <span className="font-semibold text-gray-900">Phone:</span>{" "}
                 {userDetails.phoneNumber}
               </p>
-<<<<<<< HEAD
+
               {/* <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">Role:</span> {userDetails.role}
               </p> */}
-=======
+
               <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">Role:</span>{" "}
                 {userDetails.role}
               </p>
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
               <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">
                   Date of Birth:

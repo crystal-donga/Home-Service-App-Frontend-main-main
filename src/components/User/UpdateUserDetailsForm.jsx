@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-<<<<<<< HEAD
-//import Cookies from "js-cookie";
-=======
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useUpdateUserDetailsMutation, useGetUserDetailsQuery } from "../../api/userApi";
 
-<<<<<<< HEAD
+
  function UpdateUserDetailsForm() {
   const [cookies] = useCookies(["authToken"]);
     const [formData, setFormData] = useState({
@@ -46,44 +42,10 @@ import { useUpdateUserDetailsMutation, useGetUserDetailsQuery } from "../../api/
           }
         }, [cookies]);
         
-        // Fetch user details from API
-   const { data: existingUserDetails, isLoading } = useGetUserDetailsQuery(formData.userId, {
-=======
-function UpdateUserDetailsForm() {
-  const [cookies] = useCookies(["authToken"]);
-  const [formData, setFormData] = useState({
-    userId: "",
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-    zipCode: "",
-    dateOfBirth: "",
-    profilePictureUrl: null,
-  });
 
-  const [imagePreview, setImagePreview] = useState(null);
-  const [updateUserDetails] = useUpdateUserDetailsMutation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = cookies.authToken;
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        if (!decoded.userId) {
-          console.error("User ID not found in token!");
-          return;
-        }
-        setFormData((prev) => ({ ...prev, userId: decoded.userId }));
-      } catch (error) {
-        console.log("Invalid token");
-      }
-    }
-  }, [cookies]);
 
   const { data: existingUserDetails, isLoading } = useGetUserDetailsQuery(formData.userId, {
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
     skip: !formData.userId,
   });
 

@@ -8,21 +8,15 @@ import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/ContactUs";
 import Footer from "./components/layout/Footer";
 import AboutUs from "./pages/Aboutus";
-import Services from "./pages/Services";
+import Services from "./pages/services";
 import { ToastContainer } from "react-toastify";
-<<<<<<< HEAD
+
 
 import AddServiceForm from "./components/services/AddServiceForm"
 import ViewService from "./components/services/ViewService"
 import ProviderDetails from "./components/services/ProviderDetails"
 import  ProviderProfile  from "./components/services/ProviderProfile";
-=======
-import UpdateService from "./components/services/UpdateService";
-import AddServiceForm from "./components/services/AddServiceForm";
-import ViewService from "./components/services/ViewService";
-import ProviderDetails from "./components/services/ProviderDetails";
-import ProviderProfile from "./components/services/ProviderProfile";
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 import UserProfile from "./components/User/UserProfile";
 import UserDetailsForm from "./components/User/UserDetailsForm";
 import UpdateUserDetailsForm from "./components/User/UpdateUserDetailsForm";
@@ -64,43 +58,12 @@ const ProviderProtectedRoute = ({ children }) => {
   return children;
 };
 
-const AppRoutes = () => (
-  <>
-    <ToastContainer />
-    <Header />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route
-        path="/dashboard"
-        element={
-          <ProviderProtectedRoute>
-            <Dashboard />
-          </ProviderProtectedRoute>
-        }
-      />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/about" element={<AboutUs />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/add-service" element={<AddServiceForm />} />
-      <Route path="/update-service" element={<UpdateService />} />
-      <Route path="/view-services" element={<ViewService />} />
-      <Route path="/provider-details/register" element={<ProviderDetails />} />
-      <Route path="/provider-profile" element={<ProviderProfile />} />
-      <Route path="/user-profile" element={<UserProfile />} />
-      <Route path="/user-details" element={<UserDetailsForm />} />
-      <Route path="/user-profile-update" element={<UpdateUserDetailsForm />} />
-      <Route path="/me" element={<Me />} />
-      <Route path="/provider-profile-update" element={<ProviderDetailsUpdate />} />
-    </Routes>
-    <Footer />
-  </>
-);
+
+     
 
 const App = () => {
   return (
-<<<<<<< HEAD
+
     <Router>
       <ToastContainer /> 
       <Header />
@@ -133,13 +96,7 @@ const App = () => {
       </Routes>
       <Footer />
     </Router>
-=======
-    <CookiesProvider> {/* ✅ Wrapped app here */}
-      <Router>
-        <AppRoutes />
-      </Router>
-    </CookiesProvider>
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
   );
 };
 

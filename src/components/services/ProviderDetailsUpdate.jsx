@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-<<<<<<< HEAD
+
 //import Cookies from "js-cookie";
 import { useCookies } from "react-cookie";
-=======
-import { useCookies } from "react-cookie"; // ✅ REACT COOKIE
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,7 +13,7 @@ import {
 } from "../../api/providerApi";
 
 export default function ProviderDetailsUpdate() {
-  const [cookies] = useCookies(["authToken"]); // ✅ Read auth token
+ 
   const [serviceProviderId, setServiceProviderId] = useState(null);
   const [cookies] = useCookies(["authToken"]); 
   const [userId, setUserId] = useState(null);
@@ -25,11 +23,9 @@ export default function ProviderDetailsUpdate() {
   const [updateProviderDetails, { isLoading }] = useUpdateProviderDetailsMutation();
 
   useEffect(() => {
-<<<<<<< HEAD
+
     const token = cookies.authToken
-=======
-    const token = cookies.authToken;
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -47,12 +43,11 @@ export default function ProviderDetailsUpdate() {
         console.error("Invalid token", error);
       }
     }
-<<<<<<< HEAD
-  }, [[cookies]]);
+
   
-=======
+
   }, [cookies]);
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 
   const { data: existingProviderDetails, isLoading: isProviderDetailsLoading } =
     useGetProviderDetailsQuery(userId, {

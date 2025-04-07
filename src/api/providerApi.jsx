@@ -10,19 +10,14 @@ const providerApi = createApi({
         baseUrl: 'http://localhost:8080/api/service-providers',
         credentials: "include", // Important: Ensures cookies are sent
         prepareHeaders: (headers) => {
-<<<<<<< HEAD
+
             const token = cookies.get("authToken");
             console.log("token",token)
-=======
-            const token = Cookies.get("authToken");
-            console.log("token", token)
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
+           
             if (token) {
 
-<<<<<<< HEAD
-=======
 
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
                 headers.set('authToken', `Bearer ${token}`);
             }
             return headers;
@@ -47,8 +42,8 @@ const providerApi = createApi({
 
 
         }),
-<<<<<<< HEAD
-    }),
+
+    
     getProviderImage:builder.query({
         query:(ProviderImage)=>({
             url:`/image/${ProviderImage}`,
@@ -57,8 +52,7 @@ const providerApi = createApi({
     
         }),
     }),
-=======
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 
         updateProviderDetails: builder.mutation({
             query: (providerData) => ({
@@ -82,11 +76,9 @@ const providerApi = createApi({
 
 
 
-<<<<<<< HEAD
+
 export const { useCreateProviderMutation,useGetProviderDetailsQuery ,
     useUpdateProviderDetailsMutation ,useDeleteProviderDetailsMutation,
      useGetProviderImageQuery} = providerApi;
-=======
-export const { useCreateProviderMutation, useGetProviderDetailsQuery, useUpdateProviderDetailsMutation, useDeleteProviderDetailsMutation } = providerApi;
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 export default providerApi;

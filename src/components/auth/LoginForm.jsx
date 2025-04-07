@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-<<<<<<< HEAD
+
 // import Cookies from "js-cookie";
-=======
+
 import { useCookies } from "react-cookie"; 
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
 import Input from "../common/Input";
 import Button from "../common/Button";
 import { useCookies } from "react-cookie";
@@ -20,7 +20,7 @@ const LoginForm = () => {
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [cookies, setCookie] = useCookies(["authToken"]);
+  
   const roleColors = {
     USER: "bg-blue-100",
     PROVIDER: "bg-green-100",
@@ -71,7 +71,7 @@ const LoginForm = () => {
         secure: false,
         sameSite: "Lax",
       });
-<<<<<<< HEAD
+
       // Store user info in localStorage
       localStorage.setItem("user", JSON.stringify(response.data));
 
@@ -83,11 +83,11 @@ const LoginForm = () => {
       } else {
         navigate("/dashboard");
       }
-=======
+
 
       // Redirect based on role
-      navigate(formData.role === "USER" ? "/services" : "/dashboard");
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+      //navigate(formData.role === "USER" ? "/services" : "/dashboard");
+
     } catch (error) {
       console.error("Login error:", error.response?.data);
       setErrors({
@@ -140,13 +140,13 @@ const LoginForm = () => {
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg"
           >
-<<<<<<< HEAD
-            <option value="User">User</option>
-            <option value="PROVIDER">SERVICEPROVIDER</option>
-=======
+
+            {/* <option value="User">User</option>
+            <option value="PROVIDER">SERVICEPROVIDER</option> */}
+
             <option value="USER">User</option>
             <option value="PROVIDER">Service Provider</option>
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
           </select>
         </div>
 

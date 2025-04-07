@@ -61,10 +61,7 @@
 // // Export services
 // export { api, authService };
 import axios from 'axios';
-<<<<<<< HEAD
-=======
 
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 // Utility function to get a cookie by name
 function getCookie(name) {
     const matches = document.cookie.match(new RegExp(
@@ -72,10 +69,7 @@ function getCookie(name) {
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
 // Create axios instance
 const api = axios.create({
     baseURL: 'http://localhost:8080/',
@@ -132,8 +126,6 @@ const authService = {
     },
 };
 
-<<<<<<< HEAD
+
 export { api, authService };
-=======
-export { api, authService };
->>>>>>> a46e343357c35832d1216f0d119589e8f432de23
+
