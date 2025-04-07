@@ -14,7 +14,7 @@ function ServiceImage({ imageName = "", alt = "", className = "" }) {
       const url = URL.createObjectURL(blob);
       setImageUrl(url);
 
-      return () => URL.revokeObjectURL(url); // Clean up memory
+      //return () => URL.revokeObjectURL(url); // Clean up memory
     }
   }, [blob, isSuccess]);
 

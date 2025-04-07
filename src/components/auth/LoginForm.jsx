@@ -78,15 +78,15 @@ const LoginForm = () => {
       console.log("formdata role", formData.role);
 
       console.log(formData.role);
-      if (formData.role == "User") {
-        navigate("/services");
-      } else {
-        navigate("/dashboard");
-      }
+      // if (formData.role == "User") {
+      //   navigate("/services");
+      // } else {
+      //   navigate("/dashboard");
+      // }
 
 
       // Redirect based on role
-      //navigate(formData.role === "USER" ? "/services" : "/dashboard");
+      navigate(formData.role === "USER" ? "/services" : "/dashboard");
 
     } catch (error) {
       console.error("Login error:", error.response?.data);

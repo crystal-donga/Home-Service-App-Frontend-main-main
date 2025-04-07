@@ -92,10 +92,7 @@ function Me() {
             className="w-40 h-40 rounded-full border-4 border-gray-300 shadow-md object-cover"
           />
 
-          {/* Profile picture or default SVG */}
-          <div className="w-40 h-40 rounded-full border-4 border-gray-300 shadow-md overflow-hidden">
-            {/* SVG avatar here (unchanged) */}
-          </div>
+         
 
 
           <div className="mt-6 w-full">
