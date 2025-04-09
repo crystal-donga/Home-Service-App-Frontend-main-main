@@ -113,9 +113,10 @@ import {
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-
+  //`sticky-top h-screen bg-gray-100 text-white fixed left-0 top-13 z-150 flex flex-col transition-all duration-100 ${isCollapsed ? "w-13" : "w-[200px]"}`
+  //`sticky-top h-screen  bg-gray-200 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`
   return (
-    <div className={`sticky-top h-screen bg-gray-200 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`}>
+    <div className={`sticky-top h-screen  mt-15 bg-gray-200 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`}>
       
       {/* Sidebar Toggle Button */}
       <button 

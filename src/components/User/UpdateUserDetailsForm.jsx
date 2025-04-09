@@ -44,7 +44,7 @@ import { useUpdateUserDetailsMutation, useGetUserDetailsQuery } from "../../api/
         
 
 
-  const { data: existingUserDetails, isLoading } = useGetUserDetailsQuery(formData.userId, {
+  const { data: existingUserDetails, isLoading,refetch:refetchUserDetails } = useGetUserDetailsQuery(formData.userId, {
 
     skip: !formData.userId,
   });
@@ -112,6 +112,7 @@ import { useUpdateUserDetailsMutation, useGetUserDetailsQuery } from "../../api/
     try {
       const response = await updateUserDetails(formDataToSend).unwrap();
       toast.success("User details updated successfully!");
+      await refetchUserDetails()
       navigate("/me");
     } catch (error) {
       toast.error(error?.data?.message || "Failed to submit user details.");

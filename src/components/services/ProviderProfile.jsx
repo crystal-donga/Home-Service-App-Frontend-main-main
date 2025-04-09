@@ -273,9 +273,9 @@ const ProviderProfile = () => {
             <p className="text-gray-700 text-lg">
               <span className="font-medium text-gray-900">Address:</span> {provider.address}
             </p>
-            <p className="text-gray-700 text-lg">
+            {/* <p className="text-gray-700 text-lg">
               <span className="font-medium text-gray-900">Phone:</span> {provider.phoneNumber}
-            </p>
+            </p> */}
             <p className="text-gray-700 text-lg">
               <span className="font-medium text-gray-900">Joining Date:</span> {provider.joiningDate}
             </p>

@@ -49,7 +49,7 @@ export default function ProviderDetailsUpdate() {
   }, [cookies]);
 
 
-  const { data: existingProviderDetails, isLoading: isProviderDetailsLoading } =
+  const { data: existingProviderDetails, isLoading: isProviderDetailsLoading ,refetch:refectProviderDetails} =
     useGetProviderDetailsQuery(userId, {
       skip: !userId,
     });
@@ -121,6 +121,7 @@ export default function ProviderDetailsUpdate() {
     try {
       await updateProviderDetails(formDataToSend).unwrap();
       toast.success("Provider details updated successfully!");
+      await refectProviderDetails()
       navigate("/provider-profile");
     } catch (error) {
       toast.error(error?.data?.message || "Failed to update provider details.");
