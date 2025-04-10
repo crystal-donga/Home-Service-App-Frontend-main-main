@@ -2,16 +2,16 @@
 // export default UserSidebar;
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, CircleUser, Heart, ShoppingCart, Package ,User } from "lucide-react";
+import { Menu, X, CircleUser, Heart, History, Package ,User, ShoppingCart } from "lucide-react";
 
 const UserSidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   // sticky-top fixed top-18 left-0 h-screen bg-gray-900 text-white transition-all duration-300
   return (
-    <div className={`sticky-top fixed top-18 left-0 h-screen bg-gray-100 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`}>
+    <div className={`sticky-top mt-1 fixed top-18 left-0 h-screen bg-gray-100 text-black transition-all duration-300 ${isOpen ? "w-55" : "w-16"}`}>
       {/* Sidebar Toggle Button */}
       <button 
-        className="p-3 text-black hover:bg-gray-300 w-full flex justify-end" 
+        className="p-3 text-black hover:bg-gray-200 w-full flex justify-end" 
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -39,7 +39,7 @@ const UserSidebar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/wishlist" className="flex items-center p-3 hover:bg-gray-300 transition">
+            <Link to="/whishlist" className="flex items-center p-3 hover:bg-gray-300 transition">
               <Heart size={20} />
               <span className={`ml-3 ${!isOpen ? "hidden" : ""}`}>Wishlist</span>
             </Link>
@@ -47,7 +47,7 @@ const UserSidebar = () => {
           <li>
             <Link to="/cart" className="flex items-center p-3 hover:bg-gray-300 transition">
               <ShoppingCart size={20} />
-              <span className={`ml-3 ${!isOpen ? "hidden" : ""}`}>Cart</span>
+              <span className={`ml-3 ${!isOpen ? "hidden" : ""}`}>Add to Booking</span>
             </Link>
           </li>
           <li>

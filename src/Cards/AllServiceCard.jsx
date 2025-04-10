@@ -1,10 +1,43 @@
 
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ServiceImage from "../components/services/ServiceImage";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ClipboardList , Heart,HeartIcon, ShoppingCart } from "lucide-react";
+import { toast } from "react-toastify";
+
 
 function AllServiceCard({ service = {} }) {
+  const[isWishlisted,SetIsWishlisted] = useState(false)
+ 
+  const handleWishList = () => {
+    const storedWishlist = JSON.parse(localStorage.getItem('Wishlist')) || [];
+    let updateWishlist;
+  
+    if (isWishlisted) {
+      updateWishlist = storedWishlist.filter(item => item.serviceId  !== service.serviceId);
+      toast.info("Removed from wishlist");
+    } else {
+      updateWishlist = [...storedWishlist, service];
+      toast.success("Added to wishlist");
+    }
+  
+    console.log("Updated Wishlist:", updateWishlist);
+    localStorage.setItem('Wishlist', JSON.stringify(updateWishlist));
+    SetIsWishlisted(!isWishlisted);
+
+    }
+    const HandleCart=(service)=>{
+      const existingCart = JSON.parse(localStorage.getItem("Cart")) || [];
+      const alredyExisting = existingCart.find((item) => item.serviceId === service.serviceId);
+      if (alredyExisting) {
+          toast.info("Service already exists in cart");
+          return;
+          } 
+          const updateCart =[...existingCart,service]
+          localStorage.setItem("Cart", JSON.stringify(updateCart));
+          toast.info("Service add to Cart")
+         
+    }
   return (
     <div className="p-4 ">
       <ServiceImage
@@ -18,8 +51,13 @@ function AllServiceCard({ service = {} }) {
               <Heart size={20} />
             </button> */}
       <span className="flex justify-end mb-2">
-        <button className="text-bold-black hover:text-pink-800 cursor-pointer">
-          <Heart size={20} />
+        <button className="text-bold-black hover:text-pink-800 cursor-pointer" onClick={handleWishList}>
+        {isWishlisted ? (
+            <HeartIcon fill="red" stroke="red" size={20} />
+           
+          ) : (
+            <Heart size={20} />
+          )}
         </button>
       </span>
       <div className="cursor-auto">
@@ -63,11 +101,15 @@ function AllServiceCard({ service = {} }) {
           {service.status ? "Available" : "Unavailable"}
         </p>
 
-        {/* Add to Cart Button */}
+        {/* Add to Booking Button */}
         <div className="mt-4">
-          <button className="w-full flex items-center justify-center gap-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold rounded-xl transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer">
-            <ShoppingCart size={22} />
-            Add to Cart
+          <button className="w-full flex items-center justify-center gap-3 px-4 py-2 
+          bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold rounded-xl 
+          transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+          onClick={()=>HandleCart(service)}
+          >
+            <ShoppingCart  size={22} />
+          Add to Booking
           </button>
         </div>
       </div>

@@ -220,7 +220,7 @@
 // export default Header;
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { Bell, ShoppingCart ,Heart} from "lucide-react";
+import { Bell, Heart, ShoppingCart} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { LogOut , User } from "lucide-react";
 // Utility to decode token
@@ -330,21 +330,20 @@ const Header = () => {
         {isAuthenticated &&  userRole === "USER" && (
           <>  
             
-            <Link to="/whislist">
-             <button className="text-white hover:text-gray-200">
+            <Link to="/whishlist">
+             <button className="text-white hover:text-gray-200 cursor-pointer">
               <Heart size={20} />
             </button>
             </Link>
 
             <Link to="/cart">
-            <button className="text-white hover:text-gray-200">
+             <button className="text-white hover:text-gray-200 cursor-pointer">
               <ShoppingCart size={20} />
-              
             </button>
             </Link>
 
             <Link to ="/notification">
-            <button className="text-white hover:text-gray-200">
+            <button className="text-white hover:text-gray-200 cursor-pointer">
               <Bell size={20} />
             </button>
             </Link>
@@ -359,7 +358,7 @@ const Header = () => {
             {/* User Icon Button */}
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="p-2 bg-white text-indigo-700 rounded-full hover:bg-indigo-100 transition duration-300 shadow-md"
+              className="p-2 bg-white text-indigo-700 rounded-full hover:bg-indigo-100 transition duration-300 shadow-md cursor-pointer"
             >
               <User size={20} />
             </button>

@@ -58,7 +58,7 @@ function ViewService() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data?.map((service) => (
           <div
-            key={service.id}
+            key={service.serviceId}
             className="bg-gray-300 p-6  hover:rounded-md 
                         cursor-pointer"
           >
