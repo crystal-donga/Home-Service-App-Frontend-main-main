@@ -24,6 +24,7 @@ import Me from "./components/User/Me";
 import ProviderDetailsUpdate from "./components/services/ProviderDetailsUpdate";
 import Wishlist from "./components/User/Wishlist";
 import Cart from "./components/User/Cart";
+import Orders from "./components/User/Orders";
 
 // ✅ Move this to a custom hook or utils later
 const getUserRole = () => {
@@ -96,6 +97,7 @@ const App = () => {
         <Route path="/provider-profile-update" element ={<ProviderDetailsUpdate/>} />    
         <Route path="/whishlist" element ={<Wishlist/>} />    
         <Route path="/cart" element ={<Cart/>} />    
+        <Route path="/orders" element ={<Orders/>} />    
 
       </Routes>
       <Footer />

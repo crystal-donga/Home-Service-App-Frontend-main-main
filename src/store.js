@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import providerApi  from "./api/providerApi.jsx"
 import userApi  from "./api/userApi.jsx"
 import serviceApi from "./api/serviceApi";
+import orderApi from './api/orderApi.jsx';
 import { setupListeners } from "@reduxjs/toolkit/query";
 import authenticationApi from './api/authenticationApi.jsx';
 export const store = configureStore({
@@ -9,10 +10,12 @@ export const store = configureStore({
     [providerApi.reducerPath]: providerApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [serviceApi.reducerPath]: serviceApi.reducer,
-    [authenticationApi.reducerPath] : authenticationApi.reducer
+    [authenticationApi.reducerPath] : authenticationApi.reducer,
+    [orderApi.reducerPath]:orderApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(providerApi.middleware, userApi.middleware,authenticationApi.middleware,  serviceApi.middleware ),
+    getDefaultMiddleware().concat(providerApi.middleware, userApi.middleware,
+      authenticationApi.middleware,  serviceApi.middleware,orderApi.middleware ),
 });
 
 //automatic refetching the data

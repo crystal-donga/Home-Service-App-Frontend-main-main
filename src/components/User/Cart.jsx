@@ -5,17 +5,20 @@ import { toast } from "react-toastify";
 import { useGetUserDetailsQuery } from "../../api/userApi";
 import AvailableServiceList from "./AvailableServiceList";
 import UnavailableServiceList from "./UnavailableServiceList";
-
+import {  useNavigate } from "react-router-dom";
+import { useCreateOrdersMutation } from "../../api/orderApi";
 function Cart() {
   const [cookie] = useCookies(["authToken"]);
   const [cart, setCart] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [userId, setUserId] = useState();
   const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
-
+  const navigate = useNavigate()
   const { data: userDetails } = useGetUserDetailsQuery(userId, {
     skip: !userId,
   });
+  const [createOrders, { isLoading }] = useCreateOrdersMutation();
+
 
   useEffect(() => {
     const token = cookie.authToken;
@@ -51,16 +54,46 @@ function Cart() {
     setCart(updatedCart);
     localStorage.setItem("Cart", JSON.stringify(updatedCart));
   };
+  const availableServices = cart.filter((service) => service.status);
+  const unavailableServices = cart.filter((service) => service.status === false);
 
+  const handlePayment=async()=>{
+    alert("payment is processing")
+        try{
+              for(const service of availableServices){
+                await createOrders({
+                  userId: userId,
+                  serviceId: service.serviceId,
+            
+                  scheduledDateTime: new Date().toISOString(), // Format: ISO string
+                  orderPrice: service.price,
+                  paymentMethod: "CARD"
+                }).unwrap()
+              }    
+        
+           toast.success("Order(s) placed successfully");
+           localStorage.removeItem("Cart");
+           navigate("/orders");
+
+            } 
+          catch(error){
+            console.error("Order failed:", error);
+            toast.error("Failed to place order. Try again.");
+         }
+    
+    navigate("/orders")
+  }
   const totalAmount = () => {
     return cart.reduce((total, service) => {
       return service.status ? total + service.price : total;
     }, 0);
   };
 
-  const availableServices = cart.filter((service) => service.status);
-  const unavailableServices = cart.filter((service) => !service.status);
+  
 
+
+ // console.log("status")
+  console.log("unavalible",unavailableServices)
   return (
     <div className="bg-gray-200 mt-18">
       <div className="max-w-3xl mx-auto p-6">
@@ -170,7 +203,7 @@ function Cart() {
             </button>
           ) : (
             <button
-              onClick={() => alert("Proceeding to payment...")}
+              onClick={handlePayment}
               className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer"
             >
               Pay Now

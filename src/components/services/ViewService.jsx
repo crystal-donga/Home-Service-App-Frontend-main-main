@@ -51,7 +51,7 @@ function ViewService() {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-2">
+    <div className="bg-gray-100 min-h-screen p-2 mt-18">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
         View All Services
       </h1>
