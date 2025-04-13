@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Sidebar from "../../Sidebar";
 //import Cookies from "js-cookie";
 import { useCookies } from "react-cookie";
 
@@ -129,61 +129,65 @@ export default function ProviderDetailsUpdate() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-4 bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-gray-700 mb-4">
-        Update Provider Details
-      </h2>
-      {!formData ? (
-        <p>Loading provider details...</p>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {[
-            { name: "companyName", label: "Company Name" },
-            { name: "experienceYears", label: "Experience Years" },
-            { name: "address", label: "Address" },
-            { name: "companyNumber", label: "Company Number" },
-          ].map(({ name, label, type = "text" }) => (
-            <div key={name}>
-              <label className="block text-gray-700 font-medium">{label}</label>
-              <input
-                type={type}
-                name={name}
-                value={formData[name]}
-                onChange={handleChange}
-                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-          ))}
-
-          <div>
-            <label className="block text-gray-700 font-medium">
-              Profile Image
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Profile Preview"
-                className="mt-2 w-32 h-32 rounded-full object-cover border"
-              />
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
-          >
-            {isLoading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-      )}
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
+  
+      <main className="flex-1 p-6 mt-14">
+        <div className="max-w-lg mx-auto mt-4 bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-gray-700 mb-4">
+            Update Provider Details
+          </h2>
+          {!formData ? (
+            <p>Loading provider details...</p>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {[
+                { name: "companyName", label: "Company Name" },
+                { name: "experienceYears", label: "Experience Years" },
+                { name: "address", label: "Address" },
+                { name: "companyNumber", label: "Company Number" },
+              ].map(({ name, label, type = "text" }) => (
+                <div key={name}>
+                  <label className="block text-gray-700 font-medium">{label}</label>
+                  <input
+                    type={type}
+                    name={name}
+                    value={formData[name]}
+                    onChange={handleChange}
+                    className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
+              ))}
+  
+              <div>
+                <label className="block text-gray-700 font-medium">Profile Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="Profile Preview"
+                    className="mt-2 w-32 h-32 rounded-full object-cover border"
+                  />
+                )}
+              </div>
+  
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
+              >
+                {isLoading ? "Submitting..." : "Submit"}
+              </button>
+            </form>
+          )}
+        </div>
+      </main>
     </div>
   );
+  
 }

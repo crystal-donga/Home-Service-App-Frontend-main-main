@@ -128,7 +128,7 @@ const Sidebar = () => {
 
       {/* Profile Section */}
       <div className="flex items-center p-4">
-        <User size={32} />
+        {/* <User size={32} /> */}
         {isOpen && <span className="ml-3 text-lg font-semibold">User Profile</span>}
       </div>
       <Link to="/provider-profile" className="flex items-center p-3 hover:bg-gray-300 transition">
@@ -162,10 +162,10 @@ const Sidebar = () => {
       </nav>
 
       {/* Provider Details */}
-      <Link to="/provider-details/register" className="flex items-center p-3 hover:bg-gray-300 transition">
+      {/* <Link to="/provider-details/register" className="flex items-center p-3 hover:bg-gray-300 transition">
         <Briefcase size={20} />
         <span className={`ml-3 ${!isOpen ? "hidden" : ""}`}>Provider Details</span>
-      </Link>
+      </Link> */}
 
       {/* History */}
       <Link to="/service-history" className="flex items-center p-3 hover:bg-gray-300 transition">

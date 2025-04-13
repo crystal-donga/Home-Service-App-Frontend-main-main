@@ -62,9 +62,9 @@ const LoginForm = () => {
         password: formData.password,
         role: formData.role,
       });
-
+      console.log("response from login",response)
       const token = response.data.token;
-
+      console.log("token in login form",token)
       setCookie("authToken", token, {
         path: "/",
         maxAge: 7 * 24 * 60 * 60, // 7 days

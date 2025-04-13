@@ -12,7 +12,7 @@ const baseQuery = fetchBaseQuery({
     const token = cookies.get("authToken"); //  Get token using react-cookie
 
     if (token) {
-      Headers.set("authToken", `Bearer ${token}`);
+      Headers.set("Authorization", `Bearer ${token}`);
     }
     return Headers;
   },

@@ -12,7 +12,7 @@ const userApi = createApi({
       const token = cookie.get("authToken");
       console.log("token", token);
       if (token) {
-        headers.set('authToken', `Bearer ${token}`);
+        headers.set('Authorization', `Bearer ${token}`);
       }
       return headers;
     },

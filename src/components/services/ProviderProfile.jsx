@@ -175,6 +175,7 @@ import ProviderImage from "./ProviderImage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGetAllServicesQuery } from "../../api/serviceApi";
+import Sidebar from "../../Sidebar";
 
 const ProviderProfile = () => {
   const [cookies, , removeCookie] = useCookies(["authToken"]);
@@ -242,71 +243,74 @@ const ProviderProfile = () => {
   });
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">My Profile</h2>
-      {provider ? (
-        <div className="flex flex-col items-center">
-          <ProviderImage
-            imageName={provider.imageUrl}
-            alt={provider.userName}
-            className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
-          />
-          <div className="mt-4 w-full">
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Name:</span> {provider.userName}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Email:</span> {provider.email}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Company Name:</span> {provider.companyName}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Company Number:</span> {provider.companyNumber}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Role:</span> {provider.role}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Experience:</span> {provider.experienceYears} years
-            </p>
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Address:</span> {provider.address}
-            </p>
-            {/* <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Phone:</span> {provider.phoneNumber}
-            </p> */}
-            <p className="text-gray-700 text-lg">
-              <span className="font-medium text-gray-900">Joining Date:</span> {provider.joiningDate}
-            </p>
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
 
-            <div className="flex space-x-4 mt-6">
-              <button
-                onClick={handleEdit}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition"
-              >
-                Edit
-              </button>
-              <button
-                onClick={handleDelete}
-                className="bg-red-600 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 transition"
-              >
-                Delete
-              </button>
+      <main className="flex-1 p-6 mt-18">
+        <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center ">My Profile</h2>
+          {provider ? (
+            <div className="flex flex-col items-center">
+              <ProviderImage
+                imageName={provider.imageUrl}
+                alt={provider.userName}
+                className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
+              />
+              <div className="mt-4 w-full">
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Name:</span> {provider.userName}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Email:</span> {provider.email}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Company Name:</span> {provider.companyName}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Company Number:</span> {provider.companyNumber}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Role:</span> {provider.role}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Experience:</span> {provider.experienceYears} years
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Address:</span> {provider.address}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  <span className="font-medium text-gray-900">Joining Date:</span> {provider.joiningDate}
+                </p>
+
+                <div className="flex space-x-4 mt-6">
+                  <button
+                    onClick={handleEdit}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="bg-red-600 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center mt-4">
+              <p className="text-gray-600">No profile found. Please create one.</p>
+              <Link
+                to="/provider-details/register"
+                className="inline-block mt-2 text-blue-600 hover:text-blue-800 transition"
+              >
+                Add Profile
+              </Link>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="text-center mt-4">
-          <p className="text-gray-600">No profile found. Please create one.</p>
-          <Link
-            to="/provider-details/register"
-            className="inline-block mt-2 text-blue-600 hover:text-blue-800 transition"
-          >
-            Add Profile
-          </Link>
-        </div>
-      )}
+      </main>
     </div>
   );
 };

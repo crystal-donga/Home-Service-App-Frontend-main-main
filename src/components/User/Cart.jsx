@@ -61,9 +61,11 @@ function Cart() {
     alert("payment is processing")
         try{
               for(const service of availableServices){
+                console.log("userid",userId)
+                console.log("serviceid",service.serviceId)
                 await createOrders({
                   userId: userId,
-                  serviceId: service.serviceId,
+                  servicesId: service.serviceId,
             
                   scheduledDateTime: new Date().toISOString(), // Format: ISO string
                   orderPrice: service.price,

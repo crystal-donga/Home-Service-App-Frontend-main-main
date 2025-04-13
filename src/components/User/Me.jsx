@@ -4,9 +4,9 @@ import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import { useGetUserDetailsQuery ,useDeleteUserMutation  } from "../../api/userApi";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom";
 import UserImage from "./UserImage";
-
+//import { useNavigate, Link } from "react-router-dom";
 function Me() {
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
   const [userId, setUserId] = useState(null);
@@ -165,7 +165,16 @@ function Me() {
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-500 text-lg">No Profile Data</p>
+        <div className="text-center mt-4">
+              <p className="text-gray-600">No profile found. Please create one.</p>
+              <Link
+                to="/user-details"
+                className="inline-block mt-2 text-blue-600 hover:text-blue-800 transition"
+              >
+                Add Profile
+              </Link>
+            </div>
+        
       )}
     </div>
   );

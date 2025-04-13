@@ -18,7 +18,7 @@ const providerApi = createApi({
             if (token) {
 
 
-                headers.set('authToken', `Bearer ${token}`);
+                headers.set('Authorization', `Bearer ${token}`);
             }
             return headers;
         },

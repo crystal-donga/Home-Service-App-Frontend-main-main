@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Sidebar from "../../Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { useCreateServiceMutation } from "../../api/serviceApi";
 
@@ -175,133 +175,137 @@ export default function AddServiceForm() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-4 bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-gray-700 mb-4">Add New Service</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Category Dropdown */}
-        <div>
-          <label className="block text-gray-700 font-medium">Category</label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => {
-              setSelectedCategory(e.target.value);
-              setSelectedService("");
-            }}
-            className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">Select Category</option>
-            {Object.keys(categories).map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Service Dropdown */}
-        {selectedCategory && (
-          <div>
-            <label className="block text-gray-700 font-medium">
-              Service Name
-            </label>
-            <select
-              value={selectedService}
-              onChange={(e) => setSelectedService(e.target.value)}
-              className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
+  
+      <main className="flex-1 p-6 mt-11">
+        <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-gray-700 mb-4">Add New Service</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Category Dropdown */}
+            <div>
+              <label className="block text-gray-700 font-medium">Category</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => {
+                  setSelectedCategory(e.target.value);
+                  setSelectedService("");
+                }}
+                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">Select Category</option>
+                {Object.keys(categories).map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+  
+            {/* Service Dropdown */}
+            {selectedCategory && (
+              <div>
+                <label className="block text-gray-700 font-medium">
+                  Service Name
+                </label>
+                <select
+                  value={selectedService}
+                  onChange={(e) => setSelectedService(e.target.value)}
+                  className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+                >
+                  <option value="">Select Service</option>
+                  {categories[selectedCategory].map((service) => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+  
+            {/* Description */}
+            <div>
+              <label className="block text-gray-700 font-medium">Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+  
+            {/* Price */}
+            <div>
+              <label className="block text-gray-700 font-medium">Price</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+  
+            {/* Expected Duration */}
+            <div>
+              <label className="block text-gray-700 font-medium">
+                Expected Duration (in minutes)
+              </label>
+              <input
+                type="number"
+                name="expectedDuration"
+                value={formData.expectedDuration}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+  
+            {/* Status */}
+            <div>
+              <label className="block text-gray-700 font-medium">Available</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+  
+            {/* Image Upload */}
+            <div>
+              <label className="block text-gray-700 font-medium">Service Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+              {errors.image_url && (
+                <p className="text-red-500 text-sm">{errors.image_url}</p>
+              )}
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Service Preview"
+                  className="mt-2 w-32 h-32 rounded object-cover border"
+                />
+              )}
+            </div>
+  
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
             >
-              <option value="">Select Service</option>
-              {categories[selectedCategory].map((service) => (
-                <option key={service} value={service}>
-                  {service}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        {/* Description */}
-        <div>
-          <label className="block text-gray-700 font-medium">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-          />
+              Submit
+            </button>
+          </form>
         </div>
-
-        {/* Price */}
-        <div>
-          <label className="block text-gray-700 font-medium">Price</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-
-        {/* Expected Duration */}
-        <div>
-          <label className="block text-gray-700 font-medium">
-            Expected Duration (in minutes)
-          </label>
-          <input
-            type="number"
-            name="expectedDuration"
-            value={formData.expectedDuration}
-            onChange={handleChange}
-            className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-
-        {/* Status */}
-        <div>
-          <label className="block text-gray-700 font-medium">Available</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
-
-        {/* Image Upload */}
-        <div>
-          <label className="block text-gray-700 font-medium">
-            Service Image
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-          {errors.image_url && (
-            <p className="text-red-500 text-sm">{errors.image_url}</p>
-          )}
-          {imagePreview && (
-            <img
-              src={imagePreview}
-              alt="Service Preview"
-              className="mt-2 w-32 h-32 rounded object-cover border"
-            />
-          )}
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
-        >
-          Submit
-        </button>
-
-      </form>
+      </main>
     </div>
   );
+  
 }

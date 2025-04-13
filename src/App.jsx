@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { CookiesProvider, useCookies } from "react-cookie"; // ✅ Added
+import { useState,useEffect } from "react";
 import Header from "./components/layout/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,7 +11,7 @@ import Footer from "./components/layout/Footer";
 import AboutUs from "./pages/Aboutus";
 import Services from "./pages/services";
 import { ToastContainer } from "react-toastify";
-
+import History from "./components/services/History";
 
 import AddServiceForm from "./components/services/AddServiceForm"
 import ViewService from "./components/services/ViewService"
@@ -25,7 +26,9 @@ import ProviderDetailsUpdate from "./components/services/ProviderDetailsUpdate";
 import Wishlist from "./components/User/Wishlist";
 import Cart from "./components/User/Cart";
 import Orders from "./components/User/Orders";
-
+import Sidebar from "./Sidebar";
+import UserSidebar from "./components/User/UserSidebar";
+import IndivisualOrder from "./components/services/IndivisualOrder";
 // ✅ Move this to a custom hook or utils later
 const getUserRole = () => {
   const token = document.cookie
@@ -44,6 +47,9 @@ const getUserRole = () => {
     return null;
   }
 };
+
+
+
 
 const isAuthenticated = () => {
   return document.cookie.includes("authToken=");
@@ -65,11 +71,18 @@ const ProviderProtectedRoute = ({ children }) => {
      
 
 const App = () => {
+  const [role, setRole] = useState();
+  useEffect(() => {
+    const userRole = getUserRole();
+    setRole(userRole);
+  }, []);
   return (
 
     <Router>
       <ToastContainer /> 
       <Header />
+      {/* {role === "USER" && <UserSidebar />}
+      {role === "PROVIDER" && <Sidebar />} */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -98,6 +111,8 @@ const App = () => {
         <Route path="/whishlist" element ={<Wishlist/>} />    
         <Route path="/cart" element ={<Cart/>} />    
         <Route path="/orders" element ={<Orders/>} />    
+        <Route path="/service-history" element ={<History/>} />    
+        <Route path="/orders/:orderId"  element={<IndivisualOrder/>} />
 
       </Routes>
       <Footer />
