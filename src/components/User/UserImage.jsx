@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
         }
 
     },[blob,isSuccess])
+    console.log("user image url",imageUrl)
     if (isError || !imageUrl) {
         return (
           <img

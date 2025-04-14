@@ -101,7 +101,7 @@ const LoginForm = () => {
 
   return (
     <div
-      className={`p-6 rounded-lg shadow-lg ${
+      className={`p-6 rounded-lg shadow-lg  ${
         roleColors[formData.role] || "bg-white"
       }`}
     >

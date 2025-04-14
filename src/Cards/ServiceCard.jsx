@@ -10,7 +10,7 @@ import ServiceImage from "../components/services/ServiceImage";
 function ServiceCard({ service = {} }) {
   const [deleteService, { isLoading }] = useDeleteServiceMutation();
   const [isEditOpen, setIsEditOpen] = useState(false);
-
+  console.log("image from service card",service.imageUrl)
   if (!service || Object.keys(service).length === 0) {
     return (
       <div className="bg-white shadow-md rounded-md p-6">

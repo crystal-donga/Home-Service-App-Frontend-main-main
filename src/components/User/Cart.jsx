@@ -56,7 +56,8 @@ function Cart() {
   };
   const availableServices = cart.filter((service) => service.status);
   const unavailableServices = cart.filter((service) => service.status === false);
-
+  console.log("Avalibale",availableServices)
+  console.log("Unavalibale",unavailableServices)
   const handlePayment=async()=>{
     alert("payment is processing")
         try{

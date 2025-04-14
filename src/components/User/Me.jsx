@@ -17,7 +17,7 @@ function Me() {
     useGetUserDetailsQuery(userId, {
       skip: !userId,
     });
-
+  console.log("userDetails",userDetails)
   useEffect(() => {
     const token = cookies.authToken;
     if (token) {

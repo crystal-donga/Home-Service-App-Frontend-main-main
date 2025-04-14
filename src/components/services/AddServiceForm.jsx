@@ -95,7 +95,7 @@ export default function AddServiceForm() {
     category: "",
     expectedDuration: "",
     status: true,
-    image_url: null,
+    imageUrl: null,
   });
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export default function AddServiceForm() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData({ ...formData, image_url: file });
+      setFormData({ ...formData, imageUrl: file });
 
       const reader = new FileReader();
       reader.onload = () => setImagePreview(reader.result);
@@ -159,8 +159,8 @@ export default function AddServiceForm() {
 
     const formDataToSend = new FormData();
     formDataToSend.append("ServicesRegisterDto", serviceDetailsBlob);
-    if (formData.image_url) {
-      formDataToSend.append("imageFile", formData.image_url);
+    if (formData.imageUrl) {
+      formDataToSend.append("imageFile", formData.imageUrl);
     } else {
       console.warn("No image selected");
     }
@@ -175,10 +175,10 @@ export default function AddServiceForm() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 ">
       <Sidebar />
   
-      <main className="flex-1 p-6 mt-11">
+      <main className="flex-1 p-6 mt-15">
         <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-2xl font-bold text-gray-700 mb-4">Add New Service</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -283,8 +283,8 @@ export default function AddServiceForm() {
                 onChange={handleImageChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
-              {errors.image_url && (
-                <p className="text-red-500 text-sm">{errors.image_url}</p>
+              {errors.imageUrl && (
+                <p className="text-red-500 text-sm">{errors.imageUrl}</p>
               )}
               {imagePreview && (
                 <img
