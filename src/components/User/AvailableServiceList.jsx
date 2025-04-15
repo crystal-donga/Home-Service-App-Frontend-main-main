@@ -51,6 +51,20 @@ const AvailableServiceList = ({ services, onRemove, totalAmount }) => {
               <p className="font-semibold text-gray-700">Status</p>
               <p className="text-green-600">Available</p>
             </div>
+
+            <div className="col-span-1 sm:col-span-1">
+              <p className="font-semibold text-purple-700">Schedule Date</p>
+              <p className="text-green-600 font-medium">
+                {service.scheduleDate}
+              </p>
+            </div>
+
+            <div className="col-span-1 sm:col-span-1">
+              <p className="font-semibold text-purple-700">Schedule Time</p>
+              <p className="text-green-600 font-medium">
+                {service.scheduleTime}
+              </p>
+            </div>
           </div>
         </div>
       ))}

@@ -10,8 +10,8 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { useState, useRef } from "react";
-
+import { useState, useRef ,useEffect} from "react";
+import { useWishlist } from "../../context/WishlistContext";
 // Utility to decode token
 const getUserRoleFromToken = (token) => {
   if (!token) return null;
@@ -39,7 +39,10 @@ const Header = () => {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
   const userName = user?.name || "User";
-
+  
+ 
+  const{wishlistCount} = useWishlist()
+  console.log("count",wishlistCount)
   const handleLogout = () => {
     setDropdownOpen(false);
     removeCookie("authToken", { path: "/" });
@@ -107,6 +110,11 @@ const Header = () => {
               <button className={`cursor-pointer transition duration-300 ${isActive("/whishlist") ? "text-yellow-400" : "text-white hover:text-gray-200"}`}>
                 <Heart size={20} />
               </button>
+              {wishlistCount > 0 && (
+          <span className="absolute top-4 right-26 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+            {wishlistCount}
+          </span>
+        )}
             </Link>
             <Link to="/cart">
               <button className={`cursor-pointer transition duration-300 ${isActive("/cart") ? "text-yellow-400" : "text-white hover:text-gray-200"}`}>
@@ -132,7 +140,7 @@ const Header = () => {
                       <User className="mr-2" size={16} />
                       My Profile
                     </button>
-                    <button onClick={handleOrdersClick} className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${isActive("/orders") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-100"}`}>
+                    <button onClick={handleOrdersClick} className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${isActive("/orders") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-300"}`}>
                       <ShoppingBag className="mr-2" size={16} />
                       My Orders
                     </button>

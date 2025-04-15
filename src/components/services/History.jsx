@@ -1,133 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import {
-//   useGetProviderOfAllOrdersQuery,
-//   useUpdateOrderStatusMutation,
-// } from "../../api/orderApi";
-// import { useCookies } from "react-cookie";
-// import { jwtDecode } from "jwt-decode";
-// import IndivisualOrder from "./IndivisualOrder";
-// import Sidebar from "../../Sidebar";
 
-// const ORDER_STATUSES = [
-//   "PENDING",
-//   "CONFIRMED",
-//   "IN_PROGRESS",
-//   "COMPLETED",
-//   "CANCELLED",
-// ];
-
-// export default function History() {
-//   const [cookies] = useCookies(["authToken"]);
-//   const [serviceProviderId, setServiceProviderId] = useState(null);
-//   const [selectedOrderId, setSelectedOrderId] = useState(null);
-
-//   const { data: orders = [], isLoading } = useGetProviderOfAllOrdersQuery(
-//     serviceProviderId,
-//     {
-//       skip: !serviceProviderId,
-//     }
-//   );
-
-//   const [updateOrderStatus] = useUpdateOrderStatusMutation();
-
-//   useEffect(() => {
-//     const token = cookies.authToken;
-//     if (token) {
-//       const decoded = jwtDecode(token);
-//       setServiceProviderId(decoded.serviceProviderId);
-//     }
-//   }, [cookies]);
-
-//   const handleStatus = async (e, orderId) => {
-//     const newStatus = e.target.value;
-//     try {
-//       await updateOrderStatus({ orderId, status: newStatus });
-//       console.log(`Updated status to ${newStatus}`);
-//     } catch (error) {
-//       console.error("Failed to update status", error);
-//     }
-//   };
-
-//   return (
-//     <div className="flex min-h-screen bg-gray-100">
-//       <Sidebar />
-
-//       <main className="flex-1 px-6 py-8 overflow-y-auto">
-//         <h2 className="text-xl font-bold mt-10">Service Provider Order History</h2>
-
-//         {isLoading && <div className="text-sm mt-4">Loading orders...</div>}
-
-//         {selectedOrderId ? (
-//           <div className="mb-6">
-//             <div className="flex justify-between items-center mb-4">
-//               <button
-//                 onClick={() => setSelectedOrderId(null)}
-//                 className="text-blue-600 hover:text-blue-800 text-sm underline"
-//               >
-//                 ← Back to all orders
-//               </button>
-//             </div>
-//             <IndivisualOrder orderId={selectedOrderId} />
-//           </div>
-//         ) : (
-//           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-//             {orders.map((order, idx) => (
-//               <div
-//                 key={idx}
-//                 className="bg-white border rounded-lg shadow-sm p-4 text-sm space-y-2"
-//               >
-//                 <div className="flex justify-between items-start">
-//                   <div>
-//                     <h3 className="font-semibold text-gray-800">
-//                       Order #{order.orderId}
-//                     </h3>
-//                     <p className="text-xs text-gray-500">
-//                       {order.scheduledDateTime.split("T")[0]}
-//                     </p>
-//                   </div>
-//                   <select
-//                     defaultValue={order.status}
-//                     className="border text-xs px-2 py-1 bg-gray-50 rounded"
-//                     onChange={(e) => handleStatus(e, order.orderId)}
-//                   >
-//                     {ORDER_STATUSES.map((status) => (
-//                       <option key={status} value={status}>
-//                         {status}
-//                       </option>
-//                     ))}
-//                   </select>
-//                 </div>
-
-//                 <div className="bg-gray-50 p-2 rounded">
-//                   <p><strong>Customer:</strong> {order.customerName}</p>
-//                   <p><strong>Phone:</strong> {order.customerNumber}</p>
-//                   <p><strong>Address:</strong> {order.address}</p>
-//                 </div>
-
-//                 <div className="bg-gray-50 p-2 rounded">
-//                   <p><strong>Service:</strong> {order.serviceName}</p>
-//                   <p><strong>Price:</strong> ₹{order.orderPrice.toFixed(2)}</p>
-//                 </div>
-
-//                 <div className="text-xs text-gray-600">
-//                   <p>Ordered At: {order.orderedAt}</p>
-//                   <p>Updated At: {order.updatedAt}</p>
-//                 </div>
-
-//                 <button
-//                   onClick={() => setSelectedOrderId(order.orderId)}
-//                   className="w-full mt-2 py-2 bg-purple-500 text-white text-xs rounded hover:bg-purple-700 transition"
-//                 >
-//                   View Details
-//                 </button>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </main>
-//     </div>
-//   );
-// }
 import React, { useEffect, useState } from "react";
 import {
   useGetProviderOfAllOrdersQuery,
@@ -200,7 +71,7 @@ export default function History() {
       <Sidebar />
 
       <main className="flex-1 px-6 py-8 overflow-y-auto">
-        <h2 className="text-2xl font-bold mt-10">
+        <h2 className="text-2xl font-bold mt-15">
           Service Provider Order History
         </h2>
 
@@ -232,7 +103,10 @@ export default function History() {
                     Order ID: {order.orderId}
                   </h3>
                   <p className="text-xs text-gray-500">
-                    Scheduled Date: {order.scheduledDateTime.split("T")[0]}
+                    Scheduled Date: {order.scheduledDate}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Scheduled Time: {order.scheduledTime}
                   </p>
                 </div>
                 <div>

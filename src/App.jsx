@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { CookiesProvider, useCookies } from "react-cookie"; // ✅ Added
+
 import { useState,useEffect } from "react";
 import Header from "./components/layout/Header";
 import Home from "./pages/Home";
@@ -26,10 +26,11 @@ import ProviderDetailsUpdate from "./components/services/ProviderDetailsUpdate";
 import Wishlist from "./components/User/Wishlist";
 import Cart from "./components/User/Cart";
 import Orders from "./components/User/Orders";
-import Sidebar from "./Sidebar";
-import UserSidebar from "./components/User/UserSidebar";
 import IndivisualOrder from "./components/services/IndivisualOrder";
-// ✅ Move this to a custom hook or utils later
+
+
+
+//  Move this to a custom hook or utils later
 const getUserRole = () => {
   const token = document.cookie
     .split("; ")
@@ -77,47 +78,50 @@ const App = () => {
     setRole(userRole);
   }, []);
   return (
-
+   
     <Router>
       <ToastContainer /> 
       <Header />
       {/* {role === "USER" && <UserSidebar />}
       {role === "PROVIDER" && <Sidebar />} */}
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/"  excat element={<Home />} />
+        <Route path="/home"   excat element={<Home />} />
+        <Route path="/login" excat element={<Login />} />
+        <Route path="/register" excat element={<Register />} />
         <Route
           path="/dashboard"
+          excat
+
           element={
             <ProviderProtectedRoute>
               <Dashboard />
             </ProviderProtectedRoute>
           }
         />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/add-service" element={<AddServiceForm/>} />
+        <Route path="/contact" excat element={<Contact />} />
+        <Route path="/about" excat element={<AboutUs />} />
+        <Route path="/services" excat element={<Services />} />
+        <Route path="/add-service" excat element={<AddServiceForm/>} />
        
-        <Route path="/view-services" element ={<ViewService/>} />
-        <Route path="/provider-details/register" element ={<ProviderDetails/>} />
-        <Route path="/provider-profile" element ={<ProviderProfile/>} />
-        <Route path = "/user-profile" element={<UserProfile/>}/>
-        <Route path="/user-details" element ={<UserDetailsForm/>} />    
-        <Route path="/user-profile-update" element ={<UpdateUserDetailsForm/>} />    
-        <Route path="/me" element ={<Me/>} />    
-        <Route path="/provider-profile-update" element ={<ProviderDetailsUpdate/>} />    
-        <Route path="/whishlist" element ={<Wishlist/>} />    
-        <Route path="/cart" element ={<Cart/>} />    
-        <Route path="/orders" element ={<Orders/>} />    
-        <Route path="/service-history" element ={<History/>} />    
-        <Route path="/orders/:orderId"  element={<IndivisualOrder/>} />
+        <Route path="/view-services" excat element ={<ViewService/>} />
+        <Route path="/provider-details/register" excat element ={<ProviderDetails/>} />
+        <Route path="/provider-profile"  excat element ={<ProviderProfile/>} />
+        <Route path = "/user-profile" excat element={<UserProfile/>}/>
+        <Route path="/user-details" excat element ={<UserDetailsForm/>} />    
+        <Route path="/user-profile-update" excat element ={<UpdateUserDetailsForm/>} />    
+        <Route path="/me" excat element ={<Me/>} />    
+        <Route path="/provider-profile-update" excat element ={<ProviderDetailsUpdate/>} />    
+        <Route path="/whishlist" excat element ={<Wishlist/>} />    
+        <Route path="/cart" excat element ={<Cart/>} />    
+        <Route path="/orders"  excat element ={<Orders/>} />    
+        <Route path="/service-history" excat element ={<History/>} />    
+        <Route path="/orders/:orderId" excat element={<IndivisualOrder/>} />
 
       </Routes>
       <Footer />
     </Router>
-
+  
   );
 };
 

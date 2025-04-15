@@ -114,10 +114,10 @@ function Me() {
                 <span className="font-semibold text-gray-900">Role:</span> {userDetails.role}
               </p> */}
 
-              <p className="text-gray-700 text-lg">
+              {/* <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">Role:</span>{" "}
                 {userDetails.role}
-              </p>
+              </p> */}
 
               <p className="text-gray-700 text-lg">
                 <span className="font-semibold text-gray-900">

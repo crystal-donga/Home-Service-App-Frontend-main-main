@@ -1,41 +1,50 @@
 
-import React, { useState } from "react";
+import  { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ServiceImage from "../components/services/ServiceImage";
-import { ClipboardList , Heart,HeartIcon, ShoppingCart } from "lucide-react";
+import {  Heart,HeartIcon, ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
-
-
+import { Dialog } from "@headlessui/react";
+import { useWishlist } from "../context/WishlistContext";
 function AllServiceCard({ service = {} }) {
-  const[isWishlisted,SetIsWishlisted] = useState(false)
  
-  const handleWishList = () => {
-    const storedWishlist = JSON.parse(localStorage.getItem('Wishlist')) || [];
-    let updateWishlist;
-  
-    if (isWishlisted) {
-      updateWishlist = storedWishlist.filter(item => item.serviceId  !== service.serviceId);
-      toast.info("Removed from wishlist");
-    } else {
-      updateWishlist = [...storedWishlist, service];
-      toast.success("Added to wishlist");
-    }
-  
-    console.log("Updated Wishlist:", updateWishlist);
-    localStorage.setItem('Wishlist', JSON.stringify(updateWishlist));
-    SetIsWishlisted(!isWishlisted);
+  const [isOpen, setIsOpen] = useState(false); 
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
 
-    }
+  
+
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const isWishlisted = isInWishlist(service.serviceId);
+
+  const handleWishList = () => {
+    const added = toggleWishlist(service);
+    toast[added ? "success" : "info"](
+      added ? "Added to wishlist" : "Removed from wishlist",
+      { autoClose: 500 }
+    );
+  };
     const HandleCart=(service)=>{
+      if (!scheduleDate || !scheduleTime) {
+        toast.error("Please select both date and time");
+        return;
+      }
       const existingCart = JSON.parse(localStorage.getItem("Cart")) || [];
       const alredyExisting = existingCart.find((item) => item.serviceId === service.serviceId);
       if (alredyExisting) {
           toast.info("Service already exists in cart");
           return;
           } 
-          const updateCart =[...existingCart,service]
+          const updateCart =[...existingCart,{
+            ...service,
+            scheduleDate,
+            scheduleTime,
+          },]
           localStorage.setItem("Cart", JSON.stringify(updateCart));
-          toast.info("Service add to Cart")
+          toast.info("Service add to Cart with schedule")
+          setIsOpen(false); 
+          setScheduleDate("");
+          setScheduleTime("");
          
     }
   return (
@@ -46,10 +55,7 @@ function AllServiceCard({ service = {} }) {
         className="w-full h-40 object-cover rounded-md mb-2 transition-all duration-300 hover:scale-90"
       />
 
-      {/* Wishlist Button (below image, right corner) */}
-      {/* <button className="text-white hover:text-gray-200">
-              <Heart size={20} />
-            </button> */}
+    
       <span className="flex justify-end mb-2">
         <button className="text-bold-black hover:text-pink-800 cursor-pointer" onClick={handleWishList}>
         {isWishlisted ? (
@@ -106,13 +112,55 @@ function AllServiceCard({ service = {} }) {
           <button className="w-full flex items-center justify-center gap-3 px-4 py-2 
           bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold rounded-xl 
           transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
-          onClick={()=>HandleCart(service)}
+          onClick={() => setIsOpen(true)}
           >
             <ShoppingCart  size={22} />
           Add to Booking
           </button>
         </div>
       </div>
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+            <Dialog.Title className="text-xl font-bold mb-4">Schedule Booking</Dialog.Title>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium mb-1">Select Date</label>
+                <input
+                  type="date"
+                  value={scheduleDate}
+                  onChange={(e) => setScheduleDate(e.target.value)}
+                  className="w-full border rounded p-2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium mb-1">Select Time</label>
+                <input
+                  type="time"
+                  value={scheduleTime}
+                  onChange={(e) => setScheduleTime(e.target.value)}
+                  className="w-full border rounded p-2"
+                  required
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button onClick={() => setIsOpen(false)} className="px-4 py-2 border rounded">
+                  Cancel
+                </button>
+                <button
+                  onClick={()=>HandleCart(service)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Confirm Booking
+                </button>
+              </div>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </div>
   );
 }

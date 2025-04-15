@@ -120,7 +120,7 @@ import { useUpdateUserDetailsMutation, useGetUserDetailsQuery } from "../../api/
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-4 bg-white shadow-lg rounded-lg p-6">
+    <div className="max-w-lg mx-auto mt-12 bg-white shadow-lg rounded-lg p-6 ">
       <h2 className="text-2xl font-bold text-gray-700 mb-4">Update User Details Form</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">

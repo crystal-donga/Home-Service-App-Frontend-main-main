@@ -138,6 +138,7 @@ const getStatusClass = (status) => {
 
 export default function Orders() {
   const { data: getAllOrders, isSuccess } = useGetAllOrdersQuery();
+  console.log("gel all orders",getAllOrders)
   const [deleteOrder] = useDeleteOrderMutation();
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -184,8 +185,14 @@ export default function Orders() {
           <div className="flex justify-between items-center">
             <div>
               <h3 className="text-xl font-semibold">Order ID: {order.orderId}</h3>
-              <p className="text-sm text-gray-500">
-                Scheduled At: {order.scheduledDateTime.split('T')[0]}
+              <p className="text-sm text-purple-600">
+                Scheduled Date: {order.scheduledDate}
+
+              </p>
+
+              <p className="text-sm text-purple-600">
+                Scheduled Time: {order.scheduledTime}
+                
               </p>
             </div>
             <div>
@@ -209,6 +216,7 @@ export default function Orders() {
             <div className="bg-gray-50 p-4 rounded-xl">
               <h4 className="text-lg font-semibold mb-2 text-gray-800">Service Provider</h4>
               <p><strong>Name:</strong> {order.serviceProviderName}</p>
+              <p><strong>Name:</strong> {order.serviceProviderNumber}</p>
             </div>
           </div>
 

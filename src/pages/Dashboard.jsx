@@ -85,8 +85,8 @@ function Dashboard() {
                 <tbody>
                   {paginationRequest().map((order) => (
                     <tr key={order.id} className="border-t hover:bg-gray-50">
-                      <td className="px-6 py-4">{new Date(order.scheduledDateTime).toLocaleDateString()}</td>
-                      <td className="px-6 py-4">{new Date(order.scheduledDateTime).toLocaleTimeString()}</td>
+                      <td className="px-6 py-4">{order.scheduledDate}</td>
+                      <td className="px-6 py-4">{order.scheduledTime}</td>
                       <td className="px-6 py-4">{order.serviceName}</td>
                       <td className="px-6 py-4">{order.customerName}</td>
                       <td className="px-6 py-4">

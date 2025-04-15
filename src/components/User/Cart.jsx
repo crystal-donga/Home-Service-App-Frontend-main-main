@@ -13,6 +13,8 @@ function Cart() {
   const [currentStep, setCurrentStep] = useState(1);
   const [userId, setUserId] = useState();
   const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
+  // const [scheduledTime,setScheduledTime] =useState()
+  // const [scheduledDate,setScheduledDate] =useState()
   const navigate = useNavigate()
   const { data: userDetails } = useGetUserDetailsQuery(userId, {
     skip: !userId,
@@ -64,11 +66,13 @@ function Cart() {
               for(const service of availableServices){
                 console.log("userid",userId)
                 console.log("serviceid",service.serviceId)
+                console.log("date",service.scheduleDate)
+                console.log("TIME",service.scheduleTime)
                 await createOrders({
                   userId: userId,
                   servicesId: service.serviceId,
-            
-                  scheduledDateTime: new Date().toISOString(), // Format: ISO string
+                  scheduledDate:service.scheduleDate,
+                  scheduledTime: service.scheduleTime, 
                   orderPrice: service.price,
                   paymentMethod: "CARD"
                 }).unwrap()
