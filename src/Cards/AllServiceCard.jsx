@@ -54,7 +54,7 @@ function AllServiceCard({ service = {} }) {
         alt={service.serviceName}
         className="w-full h-40 object-cover rounded-md mb-2 transition-all duration-300 hover:scale-90"
       />
-
+       <h1>crystal</h1>
     
       <span className="flex justify-end mb-2">
         <button className="text-bold-black hover:text-pink-800 cursor-pointer" onClick={handleWishList}>
