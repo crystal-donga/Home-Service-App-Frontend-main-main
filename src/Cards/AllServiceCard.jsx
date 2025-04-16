@@ -32,7 +32,7 @@ function AllServiceCard({ service = {} }) {
       const existingCart = JSON.parse(localStorage.getItem("Cart")) || [];
       const alredyExisting = existingCart.find((item) => item.serviceId === service.serviceId);
       if (alredyExisting) {
-          toast.info("Service already exists in cart");
+          toast.info("Service already exists in cart",  { autoClose: 500 });
           return;
           } 
           const updateCart =[...existingCart,{
@@ -41,7 +41,7 @@ function AllServiceCard({ service = {} }) {
             scheduleTime,
           },]
           localStorage.setItem("Cart", JSON.stringify(updateCart));
-          toast.info("Service add to Cart with schedule")
+          toast.info("Service add to Cart with schedule",  { autoClose: 500 })
           setIsOpen(false); 
           setScheduleDate("");
           setScheduleTime("");
@@ -54,7 +54,7 @@ function AllServiceCard({ service = {} }) {
         alt={service.serviceName}
         className="w-full h-40 object-cover rounded-md mb-2 transition-all duration-300 hover:scale-90"
       />
-       <h1>crystal</h1>
+       {/* <h1>crystal</h1> */}
     
       <span className="flex justify-end mb-2">
         <button className="text-bold-black hover:text-pink-800 cursor-pointer" onClick={handleWishList}>

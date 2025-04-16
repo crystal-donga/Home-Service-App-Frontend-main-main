@@ -164,15 +164,18 @@ export default function Orders() {
 
       {/* Conditionally render IndivisualOrder */}
       {selectedOrderId && (
-        <div className="mb-6">
-          <IndivisualOrder orderId={selectedOrderId} />
+        <div className="mb-1">
+        <div className="flex justify-start mb-2 ml-35">
           <button
             onClick={() => setSelectedOrderId(null)}
-            className="mt-2 text-sm text-blue-600 underline cursor-pointer"
+            className="text-sm text-blue-600 underline cursor-pointer"
           >
             Back to all orders
           </button>
         </div>
+        <IndivisualOrder orderId={selectedOrderId} />
+      </div>
+      
       )}
 
       {/* Orders List */}

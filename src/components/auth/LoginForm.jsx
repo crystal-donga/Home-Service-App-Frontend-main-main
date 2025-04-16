@@ -156,16 +156,25 @@ const LoginForm = () => {
       </form>
 
       <div className="text-center mt-2">
-        <p className="text-sm text-gray-600">
-          Not Registered?{" "}
-          <Link
-            to="/register"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
-            Register Now
-          </Link>
-        </p>
-      </div>
+  <p className="text-sm text-gray-600">
+    Not Registered?{" "}
+    <Link
+      to="/register"
+      className="font-medium text-indigo-600 hover:text-indigo-500"
+    >
+      Register Now
+    </Link>
+  </p>
+  <p className="text-sm text-gray-600 mt-1">
+    <Link
+      to="/forgot-password"
+      className="font-medium text-indigo-600 hover:text-indigo-500"
+    >
+      Forgot Password?
+    </Link>
+  </p>
+</div>
+
     </div>
   );
 };

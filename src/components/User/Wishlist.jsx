@@ -151,7 +151,7 @@ export default function Wishlist() {
     const alredyExisting = existingCart.find((item) => item.serviceId === selectedService.serviceId);
 
     if (alredyExisting) {
-      toast.info("Service already exists in cart");
+      toast.info("Service already exists in cart",  { autoClose: 500 });
       return;
     }
 
@@ -165,7 +165,7 @@ export default function Wishlist() {
     ];
 
     localStorage.setItem("Cart", JSON.stringify(updatedCart));
-    toast.success("Service added to Cart");
+    toast.success("Service added to Cart",  { autoClose: 500 });
 
     // Close dialog and reset
     setIsOpen(false);

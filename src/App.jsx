@@ -5,6 +5,7 @@ import Header from "./components/layout/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./components/auth/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/ContactUs";
 import Footer from "./components/layout/Footer";
@@ -89,6 +90,7 @@ const App = () => {
         <Route path="/home"   excat element={<Home />} />
         <Route path="/login" excat element={<Login />} />
         <Route path="/register" excat element={<Register />} />
+        <Route path="/forgot-password" excat element={<ForgotPassword />} />
         <Route
           path="/dashboard"
           excat
