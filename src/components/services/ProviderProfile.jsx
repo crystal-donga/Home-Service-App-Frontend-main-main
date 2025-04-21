@@ -1,171 +1,4 @@
-// import  { useEffect, useState } from "react";
-// import { jwtDecode } from "jwt-decode"; // Import jwt-decode
-// import { useGetProviderDetailsQuery,useDeleteProviderDetailsMutation } from "../../api/providerApi";
-// import { useCookies } from "react-cookie";
-// import { useNavigate ,Link} from "react-router-dom";
-// import ProviderImage from "./ProviderImage";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import { useGetAllServicesQuery } from "../../api/serviceApi";
 
-
-
-// const ProviderProfile = () =>{ 
-//   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]); //  Read and remove cookie
-//   const [userId, setUserId] = useState();
-//   const [serviceProviderId, setServiceProviderId] = useState();
-//   const navigate = useNavigate();
-//   const [deleteProviderDetails] = useDeleteProviderDetailsMutation();
-
-
-//   useEffect(() => {
-//     const token = cookies.authToken;
-//     if (token) {
-//       try {
-//         const decoded = jwtDecode(token);
-//         console.log("Decoded JWT:", decoded);
-
-//         if (!decoded.userId || !decoded.serviceProviderId) {
-//           console.error("Required IDs not found in token!");
-//           return;
-//         }
-
-//         setUserId(decoded.userId);
-//         setServiceProviderId(decoded.serviceProviderId);
-//       } catch (error) {
-//         console.error("Invalid Token");
-//       }
-//     }
-//   }, [cookies]);
-
-//   const{data:services} = useGetAllServicesQuery(serviceProviderId,{
-//     skip: !serviceProviderId,
-//   })
-//   const handleEdit = () => {
-//     navigate("/provider-profile-update");
-//   };
-//    const handleDelete = async () => {
-//       const confirmDelete = window.confirm("Are you sure you want to delete your profile? This action is irreversible!");
-    
-//       if (confirmDelete) {
-//         try {
-//           //if the provider service exits
-//           if(services && services.length > 0){
-//             toast.warning("You have active services, you cannot delete your profile");
-//             navigate("/view-services");
-//             return;
-//           }
-//           // Call API to delete user (assuming you have `useDeleteUserMutation` hook)
-//           const response = await deleteProviderDetails({ serviceProviderId: provider.serviceProviderId }).unwrap();
-//           //const response = await deleteProviderDetails(provider).unwrap();
-//           console.log("provider deleted successfully:", response);
-    
-//           // Remove auth token from cookies
-//           removeCookie("authToken");
-    
-//           // Clear local storage
-//           localStorage.removeItem("user");
-    
-//           // Show success message
-//           toast.success("Your profile has been deleted successfully!");
-    
-//           // Redirect to login page
-//           navigate("/login");
-//         } catch (error) {
-//           console.error("Error deleting profile:", error);
-//           toast.error("Failed to delete profile. Please try again.");
-//         }
-//       }
-//     }
-
-
-  
-
-
-
-//   const { data: provider, error, isLoading } = useGetProviderDetailsQuery(userId, {
-//     skip: !userId,
-//   });
-
-//   console.log("provider",provider)
- 
-//   //console.log("images",provider.imageUrl)
-
-
-//   return (
-//     <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
-//       <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">My Profile</h2>
-//       {provider ? (
-//         <div className="flex flex-col items-center">
-
-//           <ProviderImage
-//            imageName={provider.imageUrl}
-//            alt={provider.userName}
-//            className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
-          
-
-//           <div className="mt-4 w-full">
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Name:</span> {provider.userName}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Email:</span> {provider.email}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Company Name:</span> {provider.companyName}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Company Number:</span> {provider.companyNumber}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Role:</span> {provider.role}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Experience:</span>{" "}
-//               {provider.experienceYears} years
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Address:</span> {provider.address}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Phone:</span> {provider.phoneNumber}
-//             </p>
-//             <p className="text-gray-700 text-lg">
-//               <span className="font-medium text-gray-900">Joining Date:</span> {provider.joiningDate}
-//             </p>
-//             {/* Edit & Delete Buttons */}
-//             <div className="flex space-x-4 mt-6">
-//               <button
-//                 onClick={handleEdit}
-//                 className="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition"
-//               >
-//                 Edit
-//               </button>
-//               <button
-//                 onClick={handleDelete}
-//                 className="bg-red-600 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 transition"
-//               >
-//                 Delete
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       ) : (
-//         <div className="text-center mt-4">
-//           <p className="text-gray-600">No profile found. Please create one.</p>
-//           <Link
-//             to="/provider-details/register"
-//             className="inline-block mt-2 text-blue-600 hover:text-blue-800 transition"
-//           >
-//             Add Profile
-//           </Link>
-//         </div>
-//       )}
-//     </div>
-  
-
-
-// export default ProviderProfile;
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useGetProviderDetailsQuery, useDeleteProviderDetailsMutation } from "../../api/providerApi";
@@ -176,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGetAllServicesQuery } from "../../api/serviceApi";
 import Sidebar from "../../Sidebar";
+import { FiUser, FiMail, FiPhone, FiMapPin, FiBriefcase, FiCalendar, FiDelete } from "react-icons/fi";
 
 const ProviderProfile = () => {
   const [cookies, , removeCookie] = useCookies(["authToken"]);
@@ -243,69 +77,82 @@ const ProviderProfile = () => {
   });
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100">
       <Sidebar />
 
-      <main className="flex-1 p-6 mt-18">
-        <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center ">My Profile</h2>
-          {provider ? (
-            <div className="flex flex-col items-center">
-              <ProviderImage
-                imageName={provider.imageUrl}
-                alt={provider.userName}
-                className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
-              />
-              <div className="mt-4 w-full">
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Name:</span> {provider.userName}
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Email:</span> {provider.email}
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Company Name:</span> {provider.companyName}
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Company Number:</span> {provider.companyNumber}
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Role:</span> {provider.role}
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Experience:</span> {provider.experienceYears} years
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Address:</span> {provider.address}
-                </p>
-                <p className="text-gray-700 text-lg">
-                  <span className="font-medium text-gray-900">Joining Date:</span> {provider.joiningDate}
-                </p>
+      <main className="flex-1 p-6 mt-18 w-full">
+        <div className="max-w-5xl mx-auto bg-white/30 backdrop-blur-md border border-black/60 shadow-2xl p-10 sm:p-16 rounded-3xl">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-800 text-center mb-12 tracking-tight">
+            <span className="bg-gradient-to-r from-indigo-600 to-blue-400 bg-clip-text text-transparent">
+              Welcome, {provider?.userName || "Provider"}
+            </span>
+            <span className="text-gray-800"> 👋</span>
+          </h2>
 
-                <div className="flex space-x-4 mt-6">
-                  <button
-                    onClick={handleEdit}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition"
+          {provider ? (
+            <div className="flex flex-col items-center space-y-12">
+              {/* Profile Image */}
+              <div className="relative">
+                <ProviderImage
+                  imageName={provider.imageUrl}
+                  alt={provider.userName}
+                  className="w-44 h-44 rounded-full border-4 border-indigo-500 shadow-xl object-cover transition-transform duration-300 hover:scale-105"
+                />
+                <span className="absolute bottom-2 right-2 bg-gradient-to-tr from-blue-500 to-indigo-500 text-white px-3 py-1 text-xs rounded-full shadow">
+                  {provider.role || "Provider"}
+                </span>
+              </div>
+
+              {/* Profile Information Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                {[
+                  ["Name", provider.userName, FiUser ],
+                  ["Email", provider.email,FiMail ],
+                  ["Company Name", provider.companyName, FiBriefcase ],
+                  ["Company Number", provider.companyNumber, FiPhone ],
+                  ["Role", provider.role, FiBriefcase ],
+                  ["Experience", `${provider.experienceYears} years`, FiCalendar ],
+                  ["Address", provider.address, FiMapPin ],
+                  ["Joining Date", provider.joiningDate, FiCalendar ],
+                ].map(([label, value, icon], idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white/70 border border-gray-200 rounded-xl p-5 backdrop-blur-md shadow-lg hover:shadow-xl transition-all flex items-start gap-4"
                   >
-                    Edit
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className="bg-red-600 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 transition"
-                  >
-                    Delete
-                  </button>
-                </div>
+                    <div className="text-xl text-indigo-600">{icon}</div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500 mb-1">{label}</p>
+                      <p className="text-lg font-semibold text-gray-800 break-words">{value || "—"}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Buttons */}
+              <div className="flex flex-wrap justify-center gap-6 pt-8">
+                <button
+                  onClick={handleEdit}
+                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold shadow-lg hover:scale-105 hover:from-indigo-600 hover:to-blue-600 transition-all"
+                >
+                  Edit Profile
+                </button>
+                <button
+                  onClick={handleDelete}
+                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-lg hover:scale-105 hover:from-red-600 hover:to-pink-600 transition-all"
+                >
+                  <FiDelete className="text-lg" />
+                  Delete Profile
+                </button>
               </div>
             </div>
           ) : (
-            <div className="text-center mt-4">
-              <p className="text-gray-600">No profile found. Please create one.</p>
+            <div className="text-center">
+              <p className="text-gray-600 text-lg">No profile found. Please create one.</p>
               <Link
                 to="/provider-details/register"
-                className="inline-block mt-2 text-blue-600 hover:text-blue-800 transition"
+                className="inline-block mt-4 text-blue-600 font-semibold hover:underline"
               >
-                Add Profile
+                ➕ Add Profile
               </Link>
             </div>
           )}
