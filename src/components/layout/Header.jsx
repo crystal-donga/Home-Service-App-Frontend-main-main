@@ -8,7 +8,7 @@ import {
   ShoppingBag,
   LogOut,
   Menu,
-  X,
+  X, PlusCircle, Wrench, History, CreditCard
 } from "lucide-react";
 import { useState, useRef ,useEffect} from "react";
 import { useWishlist } from "../../context/WishlistContext";
@@ -59,7 +59,31 @@ const Header = () => {
     setDropdownOpen(false);
     navigate("/orders");
   };
+  
+  const handleProviderProfile=()=>{
+    setDropdownOpen(false)
+    navigate("/provider-profile")
+  }
 
+  const handleAddService=()=>{
+    setDropdownOpen(false)
+    navigate("/add-service")
+  }
+
+  const handleViewService=()=>{
+    setDropdownOpen(false)
+    navigate("/view-services")
+  }
+
+  const handleHistory=()=>{
+    setDropdownOpen(false)
+    navigate("/service-history")
+  }
+
+  const handlePayments=()=>{
+    setDropdownOpen(false)
+    navigate("/payments")
+  }
   const isActive = (path) => location.pathname.startsWith(path);
 
   return (
@@ -146,6 +170,60 @@ const Header = () => {
                     </button>
                   </>
                 )}
+                {userRole === 'PROVIDER' && (
+  <>
+    <button
+      onClick={handleProviderProfile}
+      className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${
+        isActive("/provider-profile") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-300"
+      }`}
+    >
+      <User className="mr-2" size={16} />
+      My Profile
+    </button>
+
+    <button
+      onClick={handleAddService}
+      className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${
+        isActive("/add-service") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-300"
+      }`}
+    >
+      <PlusCircle className="mr-2" size={16} />
+      Add Service
+    </button>
+
+    <button
+      onClick={handleViewService}
+      className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${
+        isActive("/view-service") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-300"
+      }`}
+    >
+      <Wrench className="mr-2" size={16} />
+      View Service
+    </button>
+
+    <button
+      onClick={handleHistory}
+      className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${
+        isActive("/service-history") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-300"
+      }`}
+    >
+      <History className="mr-2" size={16} />
+      History
+    </button>
+
+    <button
+      onClick={handlePayments}
+      className={`w-full px-4 py-2 text-left flex items-center cursor-pointer ${
+        isActive("/payments") ? "bg-gray-100 font-semibold" : "text-gray-800 hover:bg-gray-300"
+      }`}
+    >
+      <CreditCard className="mr-2" size={16} />
+      Payment
+    </button>
+  </>
+)}
+
                 <button onClick={handleLogout} className="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100 flex items-center cursor-pointer">
                   <LogOut className="mr-2" size={16} />
                   Sign out

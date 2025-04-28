@@ -109,7 +109,7 @@ function Me() {
               ].map(([label, value, icon], idx) => (
                 <div
                   key={idx}
-                  className="bg-white/70 border border-gray-200 rounded-xl p-5 backdrop-blur-md shadow-lg hover:shadow-xl transition-all flex items-start gap-4"
+                  className="bg-white/70 border border-gray-200 rounded-xl p-5 backdrop-blur-md shadow-lg hover:shadow-xl transition-all flex items-start "
                 >
                   <div className="text-xl text-indigo-600">{icon}</div>
                   <div>

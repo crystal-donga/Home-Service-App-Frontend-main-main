@@ -133,7 +133,7 @@ function ViewService() {
  console.log("data",data)
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <main className="flex-1 p-6 mt-13">
         <h1 className="text-2xl font-bold text-gray-800 mb-4">View All Services</h1>

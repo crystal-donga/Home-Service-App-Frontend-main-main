@@ -19,12 +19,14 @@ function AllServiceCard({ service = {} }) {
 
   const handleWishList = () => {
     const added = toggleWishlist(service);
+    console.log("wishlist service",service)
     toast[added ? "success" : "info"](
       added ? "Added to wishlist" : "Removed from wishlist",
       { autoClose: 500 }
     );
   };
     const HandleCart=(service)=>{
+      console.log("cart service",service)
       if (!scheduleDate || !scheduleTime) {
         toast.error("Please select both date and time");
         return;

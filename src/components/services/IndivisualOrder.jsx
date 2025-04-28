@@ -71,7 +71,7 @@ export default function IndivisualOrder({ orderId }) {
   const { data: order, isLoading } = useIndivisualOrderQuery(orderId, {
     skip: !orderId,
   });
-
+  console.log("orders",order)
   if (isLoading) return <div className="p-6 text-gray-700">Loading individual order...</div>;
   if (!order) return <div className="p-6 text-gray-700">No order found.</div>;
 
@@ -95,7 +95,7 @@ export default function IndivisualOrder({ orderId }) {
           <section>
             <h3 className="text-xl font-semibold text-blue-700 mb-2">Service Details</h3>
             <ul className="space-y-1">
-              <li><span className="text-gray-600">Service:</span> <span className="text-black">{order.serviceName}</span></li>
+              <li><span className="text-gray-600">Service:</span> <span className="text-black">{order.items[0].serviceName}</span></li>
               <li><span className="text-gray-600">Provider:</span> <span className="text-black">{order.serviceProviderName}</span></li>
               <li><span className="text-gray-600">Provider Number:</span> <span className="text-black">{order.serviceProviderNumber}</span></li>
             </ul>
@@ -119,7 +119,7 @@ export default function IndivisualOrder({ orderId }) {
               <li><span className="text-gray-600">Scheduled Date:</span> <span className="text-black">{order.scheduledDate}</span></li>
               <li><span className="text-gray-600">Scheduled Time:</span> <span className="text-black">{order.scheduledTime}</span></li>
               <li><span className="text-gray-600">Payment Method:</span> <span className="text-black">{order.paymentMethod}</span></li>
-              <li><span className="text-gray-600">Price:</span> <span className="text-black">₹{order.orderPrice.toFixed(2)}</span></li>
+              <li><span className="text-gray-600">Price:</span> <span className="text-black">₹{order.totalAmount}</span></li>
             </ul>
           </section>
         </div>

@@ -68,7 +68,7 @@ export default function History() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <main className="flex-1 px-6 py-8 overflow-y-auto">
         <h2 className="text-2xl font-bold mt-15">
@@ -164,10 +164,10 @@ export default function History() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-3 border-t">
                 <div>
                   <p>
-                    <strong>Service:</strong> {order.serviceName}
+                    <strong>Service:</strong> {order.items[0].serviceName}
                   </p>
                   <p>
-                    <strong>Service ID:</strong> {order.serviceId}
+                    <strong>Service ID:</strong> {order.items[0].serviceId}
                   </p>
                 </div>
                 <div>
@@ -175,7 +175,7 @@ export default function History() {
                     <strong>Payment:</strong> {order.paymentMethod}
                   </p>
                   <p>
-                    <strong>Price:</strong> ₹{order.orderPrice.toFixed(2)}
+                    <strong>Price:</strong> ₹{order.totalAmount}
                   </p>
                 </div>
                 <div>
@@ -195,7 +195,7 @@ export default function History() {
               </div>
             </div>
           ))}
-        {!selectedOrderId &&  (
+        {!selectedOrderId &&  orders.length>0 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

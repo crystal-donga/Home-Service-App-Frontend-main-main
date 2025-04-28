@@ -1,6 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/layout/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -14,10 +19,10 @@ import Services from "./pages/services";
 import { ToastContainer } from "react-toastify";
 import History from "./components/services/History";
 
-import AddServiceForm from "./components/services/AddServiceForm"
-import ViewService from "./components/services/ViewService"
-import ProviderDetails from "./components/services/ProviderDetails"
-import  ProviderProfile  from "./components/services/ProviderProfile";
+import AddServiceForm from "./components/services/AddServiceForm";
+import ViewService from "./components/services/ViewService";
+import ProviderDetails from "./components/services/ProviderDetails";
+import ProviderProfile from "./components/services/ProviderProfile";
 
 import UserProfile from "./components/User/UserProfile";
 import UserDetailsForm from "./components/User/UserDetailsForm";
@@ -29,13 +34,11 @@ import Cart from "./components/User/Cart";
 import Orders from "./components/User/Orders";
 import IndivisualOrder from "./components/services/IndivisualOrder";
 
-
-
 //  Move this to a custom hook or utils later
 const getUserRole = () => {
   const token = document.cookie
     .split("; ")
-    .find(row => row.startsWith("authToken="))
+    .find((row) => row.startsWith("authToken="))
     ?.split("=")[1];
 
   if (!token) return null;
@@ -49,9 +52,6 @@ const getUserRole = () => {
     return null;
   }
 };
-
-
-
 
 const isAuthenticated = () => {
   return document.cookie.includes("authToken=");
@@ -69,8 +69,19 @@ const ProviderProtectedRoute = ({ children }) => {
   return children;
 };
 
+const Protected = ({ children }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
 
-     
+const PublicRoute = ({ children }) => {
+  if (isAuthenticated()) {
+    return <Navigate to="/" />;
+  }
+  return children;
+};
 
 const App = () => {
   const [role, setRole] = useState();
@@ -79,22 +90,34 @@ const App = () => {
     setRole(userRole);
   }, []);
   return (
-   
     <Router>
-      <ToastContainer /> 
+      <ToastContainer />
       <Header />
       {/* {role === "USER" && <UserSidebar />}
       {role === "PROVIDER" && <Sidebar />} */}
       <Routes>
-        <Route path="/"  excat element={<Home />} />
-        <Route path="/home"   excat element={<Home />} />
-        <Route path="/login" excat element={<Login />} />
-        <Route path="/register" excat element={<Register />} />
+        <Route path="/" excat element={<Home />} />
+        <Route path="/home" excat element={<Home />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
+        />
         <Route path="/forgot-password" excat element={<ForgotPassword />} />
         <Route
           path="/dashboard"
           excat
-
           element={
             <ProviderProtectedRoute>
               <Dashboard />
@@ -103,27 +126,145 @@ const App = () => {
         />
         <Route path="/contact" excat element={<Contact />} />
         <Route path="/about" excat element={<AboutUs />} />
-        <Route path="/services" excat element={<Services />} />
-        <Route path="/add-service" excat element={<AddServiceForm/>} />
-       
-        <Route path="/view-services" excat element ={<ViewService/>} />
-        <Route path="/provider-details/register" excat element ={<ProviderDetails/>} />
-        <Route path="/provider-profile"  excat element ={<ProviderProfile/>} />
-        <Route path = "/user-profile" excat element={<UserProfile/>}/>
-        <Route path="/user-details" excat element ={<UserDetailsForm/>} />    
-        <Route path="/user-profile-update" excat element ={<UpdateUserDetailsForm/>} />    
-        <Route path="/me" excat element ={<Me/>} />    
-        <Route path="/provider-profile-update" excat element ={<ProviderDetailsUpdate/>} />    
-        <Route path="/whishlist" excat element ={<Wishlist/>} />    
-        <Route path="/cart" excat element ={<Cart/>} />    
-        <Route path="/orders"  excat element ={<Orders/>} />    
-        <Route path="/service-history" excat element ={<History/>} />    
-        <Route path="/orders/:orderId" excat element={<IndivisualOrder/>} />
+        <Route
+          path="/services"
+          excat
+          element={
+            <Protected>
+              <Services />
+            </Protected>
+          }
+        />
+        <Route
+          path="/add-service"
+          excat
+          element={
+            <Protected>
+              <AddServiceForm />
+            </Protected>
+          }
+        />
 
+        <Route
+          path="/view-services"
+          excat
+          element={
+            <Protected>
+              <ViewService />
+            </Protected>
+          }
+        />
+        <Route
+          path="/provider-details/register"
+          excat
+          element={
+            <Protected>
+              <ProviderDetails />
+            </Protected>
+          }
+        />
+        <Route
+          path="/provider-profile"
+          excat
+          element={
+            <Protected>
+              <ProviderProfile />
+            </Protected>
+          }
+        />
+        <Route
+          path="/user-profile"
+          excat
+          element={
+            <Protected>
+              <UserProfile />
+            </Protected>
+          }
+        />
+        <Route
+          path="/user-details"
+          excat
+          element={
+            <Protected>
+              <UserDetailsForm />
+            </Protected>
+          }
+        />
+        <Route
+          path="/user-profile-update"
+          excat
+          element={
+            <Protected>
+              <UpdateUserDetailsForm />
+            </Protected>
+          }
+        />
+        <Route
+          path="/me"
+          excat
+          element={
+            <Protected>
+              <Me />
+            </Protected>
+          }
+        />
+        <Route
+          path="/provider-profile-update"
+          excat
+          element={
+            <Protected>
+              <ProviderDetailsUpdate />
+            </Protected>
+          }
+        />
+        <Route
+          path="/whishlist"
+          excat
+          element={
+            <Protected>
+              <Wishlist />
+            </Protected>
+          }
+        />
+        <Route
+          path="/cart"
+          excat
+          element={
+            <Protected>
+              <Cart />
+            </Protected>
+          }
+        />
+        <Route
+          path="/orders"
+          excat
+          element={
+            <Protected>
+              <Orders />
+            </Protected>
+          }
+        />
+        <Route
+          path="/service-history"
+          excat
+          element={
+            <Protected>
+              <History />
+            </Protected>
+          }
+        />
+        <Route
+          path="/orders/:orderId"
+          excat
+          element={
+            <Protected>
+              <IndivisualOrder />
+            </Protected>
+          }
+        />
       </Routes>
       <Footer />
     </Router>
-  
   );
 };
 

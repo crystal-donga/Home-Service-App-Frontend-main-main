@@ -130,7 +130,7 @@ export default function ProviderDetailsUpdate() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
+      {/* <Sidebar /> */}
   
       <main className="flex-1 p-6 mt-14">
         <div className="max-w-lg mx-auto mt-4 bg-white shadow-lg rounded-lg p-6">

@@ -225,16 +225,16 @@ export default function Orders() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
             <div>
-              <p className="text-gray-600"><strong>Service:</strong> {order.serviceName}</p>
-              <p className="text-gray-600"><strong>Service ID:</strong> {order.serviceId}</p>
+              <p className="text-gray-600"><strong>Service:</strong> {order.items[0]?.serviceName}</p>
+              {/* <p className="text-gray-600"><strong>Service ID:</strong> {order.serviceId}</p> */}
             </div>
             <div>
               <p className="text-gray-600"><strong>Payment Method:</strong> {order.paymentMethod}</p>
-              <p className="text-gray-600"><strong>Price:</strong> ₹{order.orderPrice}</p>
+              <p className="text-gray-600"><strong>Price:</strong> ₹{order.totalAmount}</p>
             </div>
             <div>
               <p className="text-gray-600"><strong>Ordered At:</strong> {order.orderedAt}</p>
-              <p className="text-gray-600"><strong>Updated At:</strong> {order.updatedAt}</p>
+              <p className="text-gray-600"><strong>Updated At:</strong> {order.updatedAt ? order.updatedAt:"null"}</p>
             </div>
           </div>
 

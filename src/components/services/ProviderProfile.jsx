@@ -78,7 +78,7 @@ const ProviderProfile = () => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100">
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <main className="flex-1 p-6 mt-18 w-full">
         <div className="max-w-5xl mx-auto bg-white/30 backdrop-blur-md border border-black/60 shadow-2xl p-10 sm:p-16 rounded-3xl">

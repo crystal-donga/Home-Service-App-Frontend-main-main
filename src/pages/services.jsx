@@ -10,7 +10,7 @@ const Services = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const itemPerPage = 6;
-
+  console.log("services ",services)
   const filteredServices = services?.filter((service) =>
     service.category?.toLowerCase().includes(searchQuery.toLowerCase())
   );

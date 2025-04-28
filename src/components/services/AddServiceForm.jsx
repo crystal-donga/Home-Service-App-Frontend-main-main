@@ -176,7 +176,7 @@ export default function AddServiceForm() {
 
   return (
     <div className="flex min-h-screen bg-gray-50 ">
-      <Sidebar />
+      {/* <Sidebar /> */}
   
       <main className="flex-1 p-6 mt-15">
         <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
