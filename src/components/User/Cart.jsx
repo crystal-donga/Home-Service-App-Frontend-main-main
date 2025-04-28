@@ -13,7 +13,7 @@ function Cart() {
   const [currentStep, setCurrentStep] = useState(1);
   const [userId, setUserId] = useState();
   const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("ONLINE"); 
+  const [paymentMethod, setPaymentMethod] = useState("ONLINE");
 
   // const [scheduledTime,setScheduledTime] =useState()
   // const [scheduledDate,setScheduledDate] =useState()
@@ -68,22 +68,22 @@ function Cart() {
   const handlePayment = async () => {
     alert("payment is processing");
     try {
-      const orderItems = availableServices.map(service => ({
+      const orderItems = availableServices.map((service) => ({
         serviceId: service.serviceId,
         serviceName: service.serviceName,
-        quantity: service.quantity ? service.quantity: 1,
+        quantity: service.quantity ? service.quantity : 1,
       }));
-     
+
       await createOrders({
         userId: userId,
         serviceProviderId: availableServices[0].serviceProviderId, // assuming all same
         scheduledDate: availableServices[0].scheduleDate,
         scheduledTime: availableServices[0].scheduleTime,
-     
+
         paymentMethod: paymentMethod,
         items: orderItems,
       }).unwrap();
-      
+
       toast.success("Order(s) placed successfully");
       localStorage.removeItem("Cart");
       navigate("/orders");
@@ -193,25 +193,21 @@ function Cart() {
           </div>
         )}
 
-{currentStep === 3 && (
-  <div>
-     {/* <h2 className="text-xl font-bold mb-4 mt-18">Payment</h2> */}
-    <div className="flex flex-col space-y-4 bg-white p-4 rounded-lg shadow-sm">
-      <label className="font-medium text-gray-700">
-        Select Payment Method:
-      </label>
-      <select
-        value={paymentMethod}
-        onChange={(e) => setPaymentMethod(e.target.value)}
-        className="p-2 border border-gray-300 rounded-md"
-      >
-        <option value="ONLINE">Online Payment</option>
-        <option value="COD">Cash On Delivery (COD)</option>
-      </select>
-    </div>
-  </div>
-)}
-
+        {currentStep === 3 && (
+          <div className="flex flex-col space-y-4">
+            <label className="font-medium text-gray-700">
+              Select Payment Method:
+            </label>
+            <select
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="p-2 border border-gray-300 rounded-md"
+            >
+              <option value="ONLINE">Online Payment</option>
+              <option value="COD">Cash On Delivery (COD)</option>
+            </select>
+          </div>
+        )}
 
         {/* Navigation Buttons */}
         <div className="mt-6 flex justify-between">

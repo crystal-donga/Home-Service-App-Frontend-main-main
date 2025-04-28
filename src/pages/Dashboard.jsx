@@ -91,7 +91,8 @@ function Dashboard() {
   const serviceUserMap = useMemo(() => {
     const map = {};
     orders.forEach((order) => {
-      if (!map[order.items[0].serviceName]) map[order.items[0].serviceName] = new Set();
+      if (!map[order.items[0].serviceName])
+        map[order.items[0].serviceName] = new Set();
       map[order.items[0].serviceName].add(order.customerName);
     });
     return Object.keys(map).map((service) => ({
@@ -237,7 +238,7 @@ function Dashboard() {
                     <th className="px-6 py-3">Service</th>
                     <th className="px-6 py-3">Customer</th>
                     <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3">Actions</th>
+                    <th className="px-6 py-3 hover:cursor-pointer">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -245,29 +246,44 @@ function Dashboard() {
                     <tr key={order.id} className="border-t hover:bg-gray-50">
                       <td className="px-6 py-4">{order.scheduledDate}</td>
                       <td className="px-6 py-4">{order.scheduledTime}</td>
-                      <td className="px-6 py-4">{order.items[0].serviceName}</td>
+                      <td className="px-6 py-4">
+                        {order.items[0].serviceName}
+                      </td>
                       <td className="px-6 py-4">{order.customerName}</td>
                       <td className="px-6 py-4">
                         <select
                           defaultValue={order.status}
                           onChange={(e) => handleStatus(e, order.orderId)}
-                          className={`bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 ${
-                            STATUS_COLORS[order.status]
-                              ? `focus:ring-[${STATUS_COLORS[order.status]}]`
-                              : "focus:ring-blue-400"
-                          }`}
+                          className={`bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 cursor-pointer
+    ${order.status === "PENDING" && "text-yellow-500"}
+    ${order.status === "CONFIRMED" && "text-green-500"}
+    ${order.status === "IN_PROGRESS" && "text-blue-400"}
+    ${order.status === "COMPLETED" && "text-green-600"}
+    ${order.status === "CANCELLED" && "text-red-500"}
+  `}
                         >
                           {ORDER_STATUSES.map((status) => (
-                            <option key={status} value={status}>
+                            <option
+                              key={status}
+                              value={status}
+                              className={`${
+                                status === "PENDING" && "text-yellow-500"
+                              } 
+                    ${status === "CONFIRMED" && "text-green-500"} 
+                    ${status === "IN_PROGRESS" && "text-blue-400"} 
+                    ${status === "COMPLETED" && "text-green-800"} 
+                    ${status === "CANCELLED" && "text-red-500"}`}
+                            >
                               {status}
                             </option>
                           ))}
                         </select>
                       </td>
+
                       <td className="px-6 py-4">
                         <button
                           onClick={() => setSelectedOrderId(order.orderId)}
-                          className="text-purple-600 hover:underline font-medium"
+                          className="text-purple-600 hover:underline font-medium cursor-pointer"
                         >
                           View Details
                         </button>

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useGetUserDetailsQuery } from "../../api/userApi";
 // import Cookies from "js-cookie";
 
 import { useCookies } from "react-cookie"; 
@@ -12,12 +12,17 @@ import Button from "../common/Button";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["authToken"]); 
+  const [serviceProviderId,setServiceProviderId] = useState()
+  const [userId,setUserId] = useState();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     role: "USER", // Default role
   });
-
+  const{date:userDetails} = useGetUserDetailsQuery(userId,{
+    skip: !userId,
+  })
+  console.log("userDetailsId",userDetails)
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   
@@ -36,7 +41,16 @@ const LoginForm = () => {
           : value,
     });
   };
-
+  
+  // useEffect(()=>{
+  //   const item = localStorage.getItem("user")
+  //   if(item){
+  //     const user = JSON.parse(item);
+  //     console.log("user from login",user)
+  //     setServiceProviderId(user.serviceProviderId)
+  //     setUserId(user.userId)
+  //   }
+  // },[])
   const validate = () => {
     const newErrors = {};
     if (!formData.email) {
@@ -76,17 +90,28 @@ const LoginForm = () => {
       localStorage.setItem("user", JSON.stringify(response.data));
 
       console.log("formdata role", formData.role);
-
+      
+    
+      setUserId(response.data.userId);
+      console.log("provider id",response.data.serviceProviderId)
       console.log(formData.role);
-      // if (formData.role == "User") {
-      //   navigate("/services");
-      // } else {
-      //   navigate("/dashboard");
-      // }
+      if (formData.role == "USER") {
+        //if(userDetails?.udId){
+         
+          navigate("/services");
+       // }
+        //navigate("/user-details");
+      } else if (formData.role === "PROVIDER") {
+        if (response.data.serviceProviderId!=null) {
+          navigate("/dashboard");
+        } else {
+          navigate("/provider-details/register");
+        }
+      }
 
-
+       
       // Redirect based on role
-      navigate(formData.role === "USER" ? "/services" : "/dashboard");
+      //navigate(formData.role === "USER" ? "/services" : "/dashboard");
 
     } catch (error) {
       console.error("Login error:", error.response?.data);

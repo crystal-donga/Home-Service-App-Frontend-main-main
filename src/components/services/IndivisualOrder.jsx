@@ -1,80 +1,52 @@
-// // import React from 'react'
-// // import { useIndivisualOrderQuery } from '../../api/orderApi'
-// // export default function IndivisualOrder(orderId) {
-// //     const{data:order} = useIndivisualOrderQuery(orderId,{
-// //         skip: !orderId,
-// //     })
-// //   return (
-// //     <div>
-// //       //print order
-// //     </div>
-// //   )
-// // }
-// import React from 'react';
-// import { useIndivisualOrderQuery } from '../../api/orderApi';
-// import Sidebar from '../../Sidebar';
-// import { useParams } from 'react-router-dom';
-// export default function IndivisualOrder({orderId}) {
-//    // const {orderId} =useParams()
-//   const { data: order, isLoading } = useIndivisualOrderQuery(orderId, {
-//     skip: !orderId,
-//   });
-//  console.log("indivisual order",order)
-//   if (isLoading) return <div>Loading individual order...</div>;
-//   if (!order) return <div>No order found.</div>;
 
-//   return (
-//     <div className="flex">
-//           <Sidebar />
-//     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-//       <h2 className="text-2xl font-bold text-gray-800 mb-6">Order Details</h2>
-
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//         <div className="space-y-2">
-//           <h3 className="text-lg font-semibold text-blue-700">Customer Information</h3>
-//           <p><strong>Name:</strong> {order.customerName}</p>
-//           <p><strong>Phone:</strong> {order.customerNumber}</p>
-//           <p><strong>Address:</strong> {order.address}</p>
-//         </div>
-
-//         <div className="space-y-2">
-//           <h3 className="text-lg font-semibold text-blue-700">Service Details</h3>
-//           <p><strong>Service:</strong> {order.serviceName}</p>
-//           <p><strong>Provider:</strong> {order.serviceProviderName}</p>
-//           <p><strong>Service ID:</strong> {order.serviceId}</p>
-//         </div>
-
-//         <div className="space-y-2">
-//           <h3 className="text-lg font-semibold text-blue-700">Order Info</h3>
-//           <p><strong>Order ID:</strong> {order.orderId}</p>
-//           <p><strong>Status:</strong> {order.status}</p>
-//           <p><strong>Ordered At:</strong> {order.orderedAt}</p>
-//           <p><strong>Last Updated:</strong> {order.updatedAt}</p>
-//         </div>
-
-//         <div className="space-y-2">
-//           <h3 className="text-lg font-semibold text-blue-700">Scheduling & Payment</h3>
-//           <p><strong>Scheduled Date:</strong> {order.scheduledDateTime.split("T")[0]}</p>
-//           <p><strong>Scheduled Time:</strong> {order.scheduledDateTime.split("T")[1].split(".")[0]}</p>
-//           <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
-//           <p><strong>Price:</strong> ₹{order.orderPrice.toFixed(2)}</p>
-//         </div>
-//       </div>
-//     </div>
-//     </div>
-//   );
-// };
-import React from 'react';
-import { useIndivisualOrderQuery } from '../../api/orderApi';
+import React, { useEffect, useState } from 'react';
+import { useIndivisualOrderQuery,useUpdatePaymentStatusMutation } from '../../api/orderApi';
 
 export default function IndivisualOrder({ orderId }) {
-  const { data: order, isLoading } = useIndivisualOrderQuery(orderId, {
+  const[userRole,setUserRole] = useState();
+  const[serviceProviderId,setServiceProviderId] = useState()
+ // const [localPaymentStatus, setLocalPaymentStatus] = useState('');
+
+  const { data: order, isLoading,refetch } = useIndivisualOrderQuery(orderId, {
     skip: !orderId,
   });
+  const [updatePaymentStatus] = useUpdatePaymentStatusMutation()
+  useEffect(()=>{
+   const item = localStorage.getItem("user")
+   if(item){
+    const user = JSON.parse(item)
+    console.log("USER",user.role)
+    setUserRole(user.role);
+    setServiceProviderId(user.serviceProviderId)
+   }
+  
+  },[])
+  useEffect(()=>{
+  if(order){
+    //setLocalPaymentStatus(order.paymentStatus);
+  }
+  },[order])
   console.log("orders",order)
   if (isLoading) return <div className="p-6 text-gray-700">Loading individual order...</div>;
   if (!order) return <div className="p-6 text-gray-700">No order found.</div>;
-
+  const handleStatusChagnes = async (e) => {
+    const value = e.target.value;
+    //setLocalPaymentStatus(value);
+    console.log("status",value)
+    try {
+      const response = await updatePaymentStatus({
+        orderId: order.orderId,
+        serviceProviderId,
+        paymentStatus: value,
+      }).unwrap(); // unwrap to handle fulfilled/rejected
+      await refetch();
+      console.log("Payment status updated:", response);
+      // Optionally, refetch the order or show a success message
+    } catch (error) {
+      console.error("Failed to update payment status", error);
+    }
+  };
+  
   return (
     <div className=" flex min-h-screen bg-gray-50 flex items-start justify-center p-6 mt-1">
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-lg p-8">
@@ -119,6 +91,22 @@ export default function IndivisualOrder({ orderId }) {
               <li><span className="text-gray-600">Scheduled Date:</span> <span className="text-black">{order.scheduledDate}</span></li>
               <li><span className="text-gray-600">Scheduled Time:</span> <span className="text-black">{order.scheduledTime}</span></li>
               <li><span className="text-gray-600">Payment Method:</span> <span className="text-black">{order.paymentMethod}</span></li>
+                 {/* Payment Status */}
+    {userRole === "PROVIDER" && order.paymentStatus  === "UNPAID" && order.paymentMethod === "COD" ? (
+      <li className="flex items-center gap-2">
+        <span className="text-gray-600">Payment Status:</span>
+        <select 
+          className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none"
+          onChange={handleStatusChagnes}
+          value={order.paymentStatus}
+        >
+          <option value="UNPAID">Unpaid</option>
+          <option value="PAID">Paid</option>
+        </select>
+      </li>
+    ) : (
+      <li><span className="text-gray-600">Payment Status:</span> <span className="text-black">{order.paymentStatus}</span></li>
+    )}
               <li><span className="text-gray-600">Price:</span> <span className="text-black">₹{order.totalAmount}</span></li>
             </ul>
           </section>

@@ -67,6 +67,13 @@ const orderApi = createApi({
         method:"GET"
 
       })
+    }),
+    updatePaymentStatus:builder.mutation({
+      query:({orderId,serviceProviderId,paymentStatus})=>({
+        url:`/payment-status`,
+        method:"PUT",
+        body:{ orderId, serviceProviderId, paymentStatus }
+      })
     })
     
   }),
@@ -78,6 +85,8 @@ export const {
   useUpdateOrderStatusMutation,
   useDeleteOrderMutation,
   useUpdateOrderMutation,
-  useIndivisualOrderQuery
+  useIndivisualOrderQuery,
+  useUpdatePaymentStatusMutation
+  
 } = orderApi;
 export default orderApi;
