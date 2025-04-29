@@ -1,8 +1,11 @@
 
 import AuthLayout from "../components/layout/AuthLayout";
 import LoginForm from "../components/auth/LoginForm";
-
+import { useEffect } from "react";
 const Login = () => {
+  useEffect(()=>{
+          document.title="Login"
+      },[])
   return (
     <AuthLayout
       title="Sign in to your account"

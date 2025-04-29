@@ -1,11 +1,14 @@
 
-import  { useState } from 'react';
+import  { useState,useEffect } from 'react';
 import UserSidebar from './UserSidebar.jsx';
 import UserDetailsForm from './UserDetailsForm.jsx';
 
 const UserProfile = () => {
+  useEffect(()=>{
+    document.title="User Profile"
+  },[])
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
+  
   return (
     <div className="flex">
       {/* Sidebar - It will collapse instead of disappearing */}

@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect, useMemo } from "react";
 import IndivisualOrder from "../components/services/IndivisualOrder";
+
 import Pagination from "../Pagination";
 import {
   PieChart,
@@ -38,20 +39,23 @@ const STATUS_COLORS = {
 };
 
 function Dashboard() {
+  useEffect(()=>{
+    document.title="Dashboard"
+  },[])
   const [cookies] = useCookies(["authToken"]);
   const [serviceProviderId, setServiceProviderId] = useState(null);
+  const [status,setStatus] = useState();
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemPerPage = 2;
-  const navigate = useNavigate();
-
+  const itemPerPage = 4;
+ 
   const { data: orders = [], isLoading } = useGetProviderOfAllOrdersQuery(
     serviceProviderId,
     {
       skip: !serviceProviderId,
     }
   );
-
+  console.log("Orders",orders)
   const totalPages = Math.ceil((orders?.length || 0) / itemPerPage);
 
   const paginationRequest = () => {
@@ -74,6 +78,7 @@ function Dashboard() {
     const newStatus = e.target.value;
     try {
       await updateOrderStatus({ orderId, status: newStatus });
+      //setStatus(newStatus)
       console.log(`Updated status to ${newStatus}`);
     } catch (error) {
       console.error("Failed to update status", error);
@@ -126,10 +131,10 @@ function Dashboard() {
             <h1 className="text-3xl font-bold text-gray-800 mb-6 mt-4">
               Dashboard Insights
             </h1>
-
+            {/*    */}
             {/* Insights Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-white p-5 rounded-2xl shadow flex items-center justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 mb-8">
+              <div className="bg-white p-4 rounded-2xl shadow flex items-center justify-between">
                 <div>
                   <div className="text-gray-600 text-sm">Total Orders</div>
                   <div className="text-xl font-bold text-gray-800">
@@ -159,9 +164,9 @@ function Dashboard() {
             </div>
 
             {/* Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
               <div className="bg-white p-4 rounded-2xl shadow hover:bg-blue-100">
-                <h2 className="text-lg font-semibold mb-4 text-gray-700">
+                <h2 className="text-lg font-semibold mb-4 text-gray-700 ml-4">
                   Order Status Distribution
                 </h2>
                 <PieChart width={450} height={250}>
@@ -226,7 +231,76 @@ function Dashboard() {
                   />
                 </BarChart>
               </div>
-            </div>
+            </div> */}
+            {/* Compact Chart Cards */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+  {/* Small Pie Chart Card */}
+  <div className="bg-white p-3 rounded-xl shadow-md hover:bg-blue-50 transition-all">
+    <h3 className="text-base font-medium text-gray-700 text-center mb-2">
+      Status Overview
+    </h3>
+    <div className="flex justify-center items-center ">
+      <PieChart width={200} height={200}>
+        <Pie
+          data={statusDistribution}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={60}
+          label={({ name, value }) => `${name}: ${value}`}
+        >
+          {statusDistribution.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={STATUS_COLORS[entry.name] || "#ccc"}
+            />
+          ))}
+        </Pie>
+        <Tooltip />
+      </PieChart>
+    </div>
+  </div>
+
+  {/* Small Bar Chart Card */}
+  <div className="bg-white p-3 rounded-xl shadow-md hover:bg-blue-50 transition-all">
+    <h3 className="text-base font-medium text-gray-700 text-center mb-2">
+      Users per Service
+    </h3>
+    <div className="flex justify-center items-center">
+      <BarChart
+        width={250}
+        height={200}
+        data={serviceUserMap}
+        margin={{ top: 5, right: 10, left: 0, bottom: 50 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis
+          dataKey="service"
+          angle={-30}
+          textAnchor="end"
+          interval={0}
+          height={60}
+          tick={{ fontSize: 10, fill: "#4B5563" }}
+        />
+        <YAxis
+          tick={{ fontSize: 10, fill: "#4B5563" }}
+          allowDecimals={false}
+          domain={[0, "dataMax + 1"]}
+        />
+        <Tooltip />
+        <Bar
+          dataKey="users"
+          fill="#3B82F6"
+          radius={[4, 4, 0, 0]}
+          barSize={30}
+          label={{ position: "top", fontSize: 10 }}
+        />
+      </BarChart>
+    </div>
+  </div>
+</div>
+
 
             {/* Orders Table */}
             <div className="overflow-x-auto bg-white shadow rounded-2xl">
@@ -271,7 +345,7 @@ function Dashboard() {
                               } 
                     ${status === "CONFIRMED" && "text-green-500"} 
                     ${status === "IN_PROGRESS" && "text-blue-400"} 
-                    ${status === "COMPLETED" && "text-green-800"} 
+                    ${status === "COMPLETED" && "text-green-600"} 
                     ${status === "CANCELLED" && "text-red-500"}`}
                             >
                               {status}

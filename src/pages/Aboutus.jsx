@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const AboutUs = () => {
+  useEffect(()=>{
+     document.title="About"
+  },[])
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-700 via-indigo-800 to-blue-900 text-white p-6">
       <div className="max-w-4xl bg-white bg-opacity-40 backdrop-blur-lg shadow-xl rounded-3xl p-10 text-center border border-white border-opacity-30">

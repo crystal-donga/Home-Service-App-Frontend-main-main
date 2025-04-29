@@ -79,6 +79,9 @@ const categories = {
 };
 
 export default function AddServiceForm() {
+  useEffect(()=>{
+          document.title="Add Services"
+      })
   const [cookies] = useCookies(["authToken"]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedService, setSelectedService] = useState("");
@@ -269,8 +272,8 @@ export default function AddServiceForm() {
                 onChange={handleChange}
                 className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
               >
-                <option value="true">True</option>
-                <option value="false">False</option>
+                <option value="true">Available</option>
+                <option value="false">UnAvailable</option>
               </select>
             </div>
   

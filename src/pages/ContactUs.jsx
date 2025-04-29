@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Contact = () => {
+    useEffect(()=>{
+        document.title="Contact Us"
+    },[])
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 mt-10">
             <div className="bg-white shadow-lg rounded-2xl flex max-w-4xl w-full overflow-hidden">
                 
                 {/* Left Side - Illustration */}

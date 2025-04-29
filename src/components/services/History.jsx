@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   useGetProviderOfAllOrdersQuery,
   useUpdateOrderStatusMutation,
@@ -7,7 +6,7 @@ import {
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import IndivisualOrder from "./IndivisualOrder";
-import Sidebar from "../../Sidebar";
+
 import Pagination from "../../Pagination";
 const ORDER_STATUSES = [
   "PENDING",
@@ -18,6 +17,9 @@ const ORDER_STATUSES = [
 ];
 
 export default function History() {
+  useEffect(()=>{
+          document.title="History"
+      })
   const [cookies] = useCookies(["authToken"]);
   const [serviceProviderId, setServiceProviderId] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -29,6 +31,7 @@ export default function History() {
       skip: !serviceProviderId,
     }
   );
+  console.log("orders",orders)
   const totalPages = Math.ceil((orders?.length || 0) / itemPerPage);
   const paginationOrders = () => {
     const start = currentPage * itemPerPage;
@@ -44,7 +47,12 @@ export default function History() {
       setServiceProviderId(decoded.serviceProviderId);
     }
   }, [cookies]);
-
+  useEffect(() => {
+    if (orders && orders.length > 0) {
+      setCurrentPage(0); // Reset page to 0 whenever new orders are fetched
+    }
+  }, [orders]);
+  
   const handleStatus = async (e, orderId) => {
     const newStatus = e.target.value;
     try {
@@ -53,18 +61,8 @@ export default function History() {
     } catch (error) {
       console.error("Failed to update status", error);
     }
-  };
+};
 
-  const getStatusColorClass = (status) => {
-    const colorMap = {
-      PENDING: "bg-yellow-100 text-yellow-800 border-yellow-300",
-      CONFIRMED: "bg-blue-100 text-blue-800 border-blue-300",
-      IN_PROGRESS: "bg-indigo-100 text-indigo-800 border-indigo-300",
-      COMPLETED: "bg-green-100 text-green-800 border-green-300",
-      CANCELLED: "bg-red-100 text-red-800 border-red-300",
-    };
-    return colorMap[status] || "bg-gray-100 text-gray-800 border-gray-300";
-  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -113,15 +111,30 @@ export default function History() {
                   <label className="text-xs font-medium text-gray-600 mr-2">
                     Status:
                   </label>
+                  
                   <select
                     defaultValue={order.status}
-                    className={`text-xs px-2 py-1 rounded cursor-pointer border ${getStatusColorClass(
-                      order.status
-                    )}`}
                     onChange={(e) => handleStatus(e, order.orderId)}
+                    className={`bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 cursor-pointer
+    ${order.status === "PENDING" && "text-yellow-500"}
+    ${order.status === "CONFIRMED" && "text-green-500"}
+    ${order.status === "IN_PROGRESS" && "text-blue-400"}
+    ${order.status === "COMPLETED" && "text-green-600"}
+    ${order.status === "CANCELLED" && "text-red-500"}
+  `}
                   >
                     {ORDER_STATUSES.map((status) => (
-                      <option key={status} value={status}>
+                      <option
+                        key={status}
+                        value={status}
+                        className={`${
+                          status === "PENDING" && "text-yellow-500"
+                        } 
+                    ${status === "CONFIRMED" && "text-green-500"} 
+                    ${status === "IN_PROGRESS" && "text-blue-400"} 
+                    ${status === "COMPLETED" && "text-green-600"} 
+                    ${status === "CANCELLED" && "text-red-500"}`}
+                      >
                         {status}
                       </option>
                     ))}
@@ -195,11 +208,11 @@ export default function History() {
               </div>
             </div>
           ))}
-        {!selectedOrderId &&  orders.length>0 && (
+        {!selectedOrderId && orders.length > 0 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
+            onChangePage={setCurrentPage}
           />
         )}
       </main>

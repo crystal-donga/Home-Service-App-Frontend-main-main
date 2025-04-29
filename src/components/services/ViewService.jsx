@@ -100,6 +100,9 @@ import { jwtDecode } from "jwt-decode";
 import { useCookies } from "react-cookie";
 import Pagination from "../../Pagination";
 function ViewService() {
+  useEffect(()=>{
+          document.title="View Services"
+      })
   const [cookies] = useCookies(["authToken"]);
   const [serviceProviderId, setServiceProviderId] = useState();
   const [currentPage, setCurrentPage] = useState(0);

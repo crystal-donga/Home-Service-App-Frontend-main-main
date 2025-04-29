@@ -1,8 +1,11 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import AuthLayout from "../components/layout/AuthLayout";
 import RegisterForm from "../components/auth/RegisterForm";
 
 const Register = () => {
+  useEffect(()=>{
+          document.title="Register"
+      },[])
   return (
     <AuthLayout
       title="Create an account"

@@ -122,6 +122,9 @@ import { toast } from "react-toastify";
 import { Dialog } from "@headlessui/react";
 import { useWishlist } from "../../context/WishlistContext";
 export default function Wishlist() {
+  useEffect(()=>{
+    document.title="Wishlist"
+  },[])
   const { wishlist, toggleWishlist } = useWishlist(); 
   //const [wishlist, SetWishlist] = useState([]);
   const [isOpen, setIsOpen] = useState(false);

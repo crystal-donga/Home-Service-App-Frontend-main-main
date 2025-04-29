@@ -8,6 +8,9 @@ import UnavailableServiceList from "./UnavailableServiceList";
 import { useNavigate } from "react-router-dom";
 import { useCreateOrdersMutation } from "../../api/orderApi";
 function Cart() {
+  useEffect(()=>{
+      document.title="Cart"
+    },[])
   const [cookie] = useCookies(["authToken"]);
   const [cart, setCart] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);

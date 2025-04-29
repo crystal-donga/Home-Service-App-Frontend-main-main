@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useGetAllOrdersQuery,
+  useGetAllOrderByUserIdQuery,
   useDeleteOrderMutation,
 } from "../../api/orderApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import IndivisualOrder from "../services/IndivisualOrder";
-
+import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
 const getStatusClass = (status) => {
   switch (status) {
     case "PENDING":
@@ -25,11 +27,28 @@ const getStatusClass = (status) => {
 };
 
 export default function Orders() {
-  const { data: getAllOrders, isSuccess } = useGetAllOrdersQuery();
+  useEffect(()=>{
+      document.title="My Orders"
+    },[])
+  const[userId,setUserId] = useState()
+  //const { data: getAllOrders, isSuccess } = useGetAllOrdersQuery();
+  const{data:getAllOrders,isSuccess} = useGetAllOrderByUserIdQuery(userId,{
+    skip:!userId
+  })
+  const [cookies] = useCookies(["authToken"]);
   console.log("gel all orders", getAllOrders);
   const [deleteOrder] = useDeleteOrderMutation();
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  useEffect(()=>{
+   const token = cookies.authToken;
+   if(token){
+    const decoded = jwtDecode(token)
+    setUserId(decoded.userId)
 
+   }
+  },[cookies])
+
+  
   const handleCancelOrder = async (orderId) => {
     const confirmed = window.confirm(
       "Are you sure you want to cancel this order?"

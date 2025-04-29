@@ -32,6 +32,12 @@ const orderApi = createApi({
         method: "GET",
       }),
     }),
+    getAllOrderByUserId:builder.query({
+           query:(userId)=>({
+            url:`/by-user/${userId}`,
+            method:"GET"
+           }),
+    }),
 
     getProviderOfAllOrders: builder.query({
       query: (serviceProviderId) => ({
@@ -81,6 +87,7 @@ const orderApi = createApi({
 export const {
   useCreateOrdersMutation,
   useGetAllOrdersQuery,
+  useGetAllOrderByUserIdQuery,
   useGetProviderOfAllOrdersQuery,
   useUpdateOrderStatusMutation,
   useDeleteOrderMutation,

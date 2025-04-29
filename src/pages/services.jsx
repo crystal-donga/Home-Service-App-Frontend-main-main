@@ -1,11 +1,14 @@
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useGetAllQuery } from "../api/serviceApi";
 import AllServiceCard from "../Cards/AllServiceCard";
 import { Search } from "lucide-react";
 import Pagination from "../Pagination"; 
 
 const Services = () => {
+  useEffect(()=>{
+          document.title="Services"
+      },[])
   const { data: services, isLoading, isError } = useGetAllQuery();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);

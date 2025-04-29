@@ -12,6 +12,9 @@ import Sidebar from "../../Sidebar";
 import { FiUser, FiMail, FiPhone, FiMapPin, FiBriefcase, FiCalendar, FiDelete } from "react-icons/fi";
 
 const ProviderProfile = () => {
+  useEffect(()=>{
+          document.title="Provider Profile"
+      })
   const [cookies, , removeCookie] = useCookies(["authToken"]);
   const [userId, setUserId] = useState();
   const [serviceProviderId, setServiceProviderId] = useState();
