@@ -84,8 +84,14 @@ const Header = () => {
     setDropdownOpen(false)
     navigate("/payments")
   }
-  const isActive = (path) => location.pathname.startsWith(path);
-
+  //const isActive = (path) => location.pathname.startsWith(path);
+  const isActive = (path) => {
+    if (path === "/home") {
+      return location.pathname === "/" || location.pathname === "/home";
+    }
+    return location.pathname.startsWith(path);
+  };
+  
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-800 to-indigo-700 shadow-md py-4 px-6 flex justify-between items-center">
       {/* Logo */}
@@ -233,12 +239,22 @@ const Header = () => {
           </div>
         ) : (
           <>
-            <Link to="/login" className="px-4 py-2 text-white hover:bg-white hover:text-indigo-700 transition duration-300 rounded-md">
-              Sign in
-            </Link>
-            <Link to="/register" className="px-4 py-2 bg-white text-indigo-700 font-semibold rounded-md hover:bg-indigo-100 transition duration-300 shadow-md">
-              Sign up
-            </Link>
+           <Link
+  to="/login"
+  className={`block transition duration-300 ${isActive("/login") ? 
+              "text-yellow-300 font-semibold" : "text-white hover:text-gray-200"}`}
+>
+  Sign in
+</Link>
+
+<Link
+  to="/register"
+  className={`block transition duration-300 ${isActive("/register") ? 
+    "text-yellow-300 font-semibold" : "text-white hover:text-gray-200"}`}
+>
+  Sign up
+</Link>
+
           </>
         )}
       </div>

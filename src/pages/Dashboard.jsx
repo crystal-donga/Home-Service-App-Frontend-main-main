@@ -3,7 +3,7 @@ import {
   useUpdateOrderStatusMutation,
 } from "../api/orderApi";
 
-import { useNavigate } from "react-router-dom";
+
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect, useMemo } from "react";
@@ -44,7 +44,7 @@ function Dashboard() {
   },[])
   const [cookies] = useCookies(["authToken"]);
   const [serviceProviderId, setServiceProviderId] = useState(null);
-  const [status,setStatus] = useState();
+ 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const itemPerPage = 4;
@@ -164,7 +164,7 @@ function Dashboard() {
             </div>
 
             {/* Charts */}
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
               <div className="bg-white p-4 rounded-2xl shadow hover:bg-blue-100">
                 <h2 className="text-lg font-semibold mb-4 text-gray-700 ml-4">
                   Order Status Distribution
@@ -231,75 +231,9 @@ function Dashboard() {
                   />
                 </BarChart>
               </div>
-            </div> */}
+            </div>
             {/* Compact Chart Cards */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-  {/* Small Pie Chart Card */}
-  <div className="bg-white p-3 rounded-xl shadow-md hover:bg-blue-50 transition-all">
-    <h3 className="text-base font-medium text-gray-700 text-center mb-2">
-      Status Overview
-    </h3>
-    <div className="flex justify-center items-center ">
-      <PieChart width={200} height={200}>
-        <Pie
-          data={statusDistribution}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={60}
-          label={({ name, value }) => `${name}: ${value}`}
-        >
-          {statusDistribution.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={STATUS_COLORS[entry.name] || "#ccc"}
-            />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
-    </div>
-  </div>
 
-  {/* Small Bar Chart Card */}
-  <div className="bg-white p-3 rounded-xl shadow-md hover:bg-blue-50 transition-all">
-    <h3 className="text-base font-medium text-gray-700 text-center mb-2">
-      Users per Service
-    </h3>
-    <div className="flex justify-center items-center">
-      <BarChart
-        width={250}
-        height={200}
-        data={serviceUserMap}
-        margin={{ top: 5, right: 10, left: 0, bottom: 50 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="service"
-          angle={-30}
-          textAnchor="end"
-          interval={0}
-          height={60}
-          tick={{ fontSize: 10, fill: "#4B5563" }}
-        />
-        <YAxis
-          tick={{ fontSize: 10, fill: "#4B5563" }}
-          allowDecimals={false}
-          domain={[0, "dataMax + 1"]}
-        />
-        <Tooltip />
-        <Bar
-          dataKey="users"
-          fill="#3B82F6"
-          radius={[4, 4, 0, 0]}
-          barSize={30}
-          label={{ position: "top", fontSize: 10 }}
-        />
-      </BarChart>
-    </div>
-  </div>
-</div>
 
 
             {/* Orders Table */}
